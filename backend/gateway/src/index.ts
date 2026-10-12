@@ -2,6 +2,7 @@ import express from "express"
 import dotenv from "dotenv"
 import cookieParser from "cookie-parser"
 import morgan from "morgan"
+import proxy from "express-http-proxy"
 dotenv.config()
 
 const app = express()
@@ -17,6 +18,8 @@ const PORT = process.env.PORT
 app.get("/",(req,res)=>{
     res.json("Hello from SelloraAI Gateway")
 })
+
+app.use("/api/auth",proxy(process.env.AUTH_SERVICE_URL as string))
 
 app.listen(PORT,()=>{
     console.log(`Gateway server running on ${PORT}`)
