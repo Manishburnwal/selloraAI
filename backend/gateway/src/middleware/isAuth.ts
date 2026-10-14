@@ -28,7 +28,7 @@ const isAuth = async (req:Request, res:Response, next:NextFunction)=>{
             })
         }
 
-        const session = await redis.get(`session:sessionId`)
+        const session = await redis.get(`session:${sessionId}`)
 
         if(!session){
             return res.status(401).json({

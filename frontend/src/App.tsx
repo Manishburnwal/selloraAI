@@ -1,7 +1,9 @@
 import { Route, Routes } from "react-router-dom"
 import Home from "./pages/Home"
+import { getCurrentUser } from "./hooks/useGetCurrentUser"
 
 function App() {
+  getCurrentUser()
   return (
     <>
       <Routes>
