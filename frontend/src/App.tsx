@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import type { RootState } from "./redux/store";
 import Admin from "./pages/Admin";
 import Partner from "./pages/Partner";
+import { Toaster } from "./components/ui/sonner";
 
 interface IPartnerprofile {
   slug? : string;
@@ -58,6 +59,12 @@ export interface IUser {
   updatedAt: Date;
 }
 
+
+export interface IAdmin{
+  name:string,
+  email:string
+}
+
 function App() {
   getCurrentUser()
 
@@ -72,6 +79,7 @@ function App() {
   }
   return (
     <>
+    <Toaster/>
       <Routes>
         <Route path="/" element={user?.role === "admin" ? (
           <Navigate to="/admin" replace/>
@@ -92,7 +100,7 @@ function App() {
         ) : (
         <Navigate to="/" replace/>
         ) }/>  
-        
+
       </Routes>
     </>
   )

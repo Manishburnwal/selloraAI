@@ -3,6 +3,7 @@ import dotenv from "dotenv"
 import cookieParser from "cookie-parser"
 import { connectDb } from "./config/db.js"
 import authRouter from "./routes/auth.route.js"
+import adminRouter from "./routes/admin.route.js"
 
 dotenv.config()
 
@@ -19,6 +20,7 @@ app.get("/",(req,res)=>{
 })
 
 app.use("/",authRouter)
+app.use("/admin",adminRouter)
 
 app.listen(PORT,()=>{
     console.log(`Auth-Service Server running on ${PORT}`)
