@@ -19,6 +19,7 @@ function Home() {
             const token = await result.user?.getIdToken()
             const response = await api.post("/api/auth/login",{token})
             console.log(response)
+            setModelOpen(false)
         } catch (error) {
             console.log(error)
         }
