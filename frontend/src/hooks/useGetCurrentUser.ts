@@ -1,6 +1,6 @@
 import type { IUser } from "@/App"
 import type { AppDispatch } from "@/redux/store"
-import { setAdmin, setLoading, setUser } from "@/redux/userSlice"
+import { setAdmin, setLoading, setPartner, setUser } from "@/redux/userSlice"
 import api from "@/utils/axios"
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
@@ -34,15 +34,26 @@ export const getCurrentUser = ()=>{
                 if(response.data.success){
                     dispatch(setAdmin(response.data.admin))
                 }
-                console.log(response)
             } catch (error) {
-                console.log(error)
                 dispatch(setAdmin(null))
+            }
+        }
+
+
+        const fetchPartner = async ()=>{
+            try {
+                const response = await api.get("/api/auth/partner/get")
+                if(response.data.success){
+                    dispatch(setPartner(response.data.partner))
+                }
+            } catch (error) {
+                dispatch(setPartner(null))
             }
         }
 
         fetchUser()
         fetchAdmin()
-        
+        fetchPartner()
+
     },[])
 }

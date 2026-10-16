@@ -4,7 +4,7 @@ import User from "../models/user.model.js";
 
 export const getPartner = async (req:Request, res:Response)=>{
     try {
-        const {sessionId} = req.cookies?.session;
+        const sessionId = req.cookies?.session;
         if(!sessionId){
             return res.status(401).json({
                 success:false,
@@ -44,7 +44,7 @@ export const getPartner = async (req:Request, res:Response)=>{
         }
 
         // mongoDb search
-        const partner = await User.findById({userId})
+        const partner = await User.findById(userId)
 
         if(!partner){
             return res.status(404).json({
