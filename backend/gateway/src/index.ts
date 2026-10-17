@@ -6,6 +6,7 @@ import proxy from "express-http-proxy"
 import cors from "cors"
 import isAuth from "./middleware/isAuth.js"
 import { getCurrentUser } from "./controller/user.controller.js"
+import { proxyWithHeader } from "./config/proxtWithHeaders.js"
 
 dotenv.config()
 
@@ -31,7 +32,7 @@ app.get("/",(req,res)=>{
 app.get("/api/me",isAuth,getCurrentUser)
 
 app.use("/api/auth",proxy(process.env.AUTH_SERVICE_URL as string))
-app.use("/api/product",isAuth ,proxy(process.env.PRODUCT_SERVICE_URL as string))
+app.use("/api/product",isAuth ,proxyWithHeader(process.env.PRODUCT_SERVICE_URL as string))
 
 app.listen(PORT,()=>{
     console.log(`Gateway server running on ${PORT}`)
