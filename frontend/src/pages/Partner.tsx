@@ -1,14 +1,21 @@
+import type { IUser } from "@/App"
 import DashboardPanel from "@/components/partner/DashboardPanel"
 import DeactivateNote from "@/components/partner/DeactivateNote"
 import PartnerNav, { type PartnerTab } from "@/components/partner/PartnerNav"
 import ProductPanel from "@/components/partner/ProductPanel"
 import ProfilePanel from "@/components/partner/ProfilePanel"
-import type { RootState } from "@/redux/store"
+import type { AppDispatch, RootState } from "@/redux/store"
+import { setPartner } from "@/redux/userSlice"
+import api from "@/utils/axios"
 import { useState } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { toast } from "sonner"
 
 function Partner() {
     const [activeTab, setActiveTab] = useState<PartnerTab>("dashboard")
+    const [saving,setSaving] = useState(false)
+
+    const dispatch = useDispatch<AppDispatch>()
 
     const {partner} = useSelector((state:RootState)=>state.user)
 
@@ -24,6 +31,87 @@ function Partner() {
     if(partner.isActive===false){
         <DeactivateNote/>
     }
+
+
+    const handleUpdatePartner = async (data:IUser)=>{
+        try {
+            setSaving(true)
+            const response = await api.patch("/api/auth/partner/update",{
+                name: data.name,
+                newPartnerProfile: {
+                  slug: data.partnerProfile?.slug ?? "",
+                  bio: data.partnerProfile?.bio ?? "",
+                  website: data.partnerProfile?.website ?? "",
+              
+                  socialLinks: {
+                    youtube:
+                      data.partnerProfile?.socialLinks?.youtube ?? "",
+              
+                    instagram:
+                      data.partnerProfile?.socialLinks?.instagram ?? "",
+              
+                    linkedin:
+                      data.partnerProfile?.socialLinks?.linkedin ?? "",
+
+                    github:
+                      data.partnerProfile?.socialLinks?.github ?? "",
+                  },
+                },  
+
+                newPaymentDetails: {
+                    method:
+                      data.paymentDetails?.method ?? "upi",
+                  
+                    upiId:
+                      data.paymentDetails?.upiId ?? "",
+                  
+                    accountHolderName:
+                      data.paymentDetails?.accountHolderName ?? "",
+                  
+                    accountNumber:
+                      data.paymentDetails?.accountNumber ?? "",
+                  
+                    ifscCode:
+                      data.paymentDetails?.ifscCode ?? "",
+                },
+            })
+
+            if(response.data.success){
+                const updatedPartner= response.data.partner
+                dispatch(setPartner(updatedPartner))
+                setActiveTab("dashboard")
+            }
+            setSaving(false)
+            toast.success("Profile Updated..")
+        } catch (error:any) {
+            console.error(
+                "Update partner profile error:",
+                error
+            );
+            setSaving(false)
+
+            // SLUG ALREADY EXISTS ERROR
+
+            if (
+                error?.response?.status === 409 &&
+                error?.response?.data?.field === "slug"
+              ) {
+                toast.error(
+                  error.response.data.message ||
+                    "This profile slug is already taken."
+                );
+                return;
+            }
+
+            // OTHER API ERROR
+
+            toast.error(
+                error?.response?.data?.message || "Failed to update partner profile."
+            )
+
+        }
+    }
+
   return (
     <div className="min-h-screen bg-slate-50">
         <PartnerNav 
@@ -33,7 +121,12 @@ function Partner() {
         {activeTab==="dashboard" ? (
             <DashboardPanel/>
         ): activeTab==="profile" ? (
-            <ProfilePanel/>
+            <ProfilePanel 
+            partner={partner} 
+            onSave={handleUpdatePartner}
+            onCancel={()=>setActiveTab("dashboard")}
+            saving={saving}
+            />
         ):(
             <ProductPanel/>
         )}
