@@ -1,7 +1,18 @@
-function ProductList() {
+interface productlistProps{
+    onCreateClick: ()=>void
+    onEditClick: (product)=>void
+    onDeleteClick: (product)=>void
+}
+
+
+function ProductList({
+    onCreateClick,
+    onEditClick,
+    onDeleteClick
+}:productlistProps) {
   return (
-    <div className="text-3xl">
-      List
+    <div className="">
+    
     </div>
   )
 }
