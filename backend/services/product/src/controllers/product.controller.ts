@@ -5,7 +5,7 @@ import Product from "../models/product.model.js";
 export const createProduct = async(req:Request, res:Response)=>{
     try {
         const partnerId = req.headers["x-user-id"] as string
-        if(partnerId){
+        if(!partnerId){
            return res.status(401).json({
                 success:false,
                 message:"Unauthorized"

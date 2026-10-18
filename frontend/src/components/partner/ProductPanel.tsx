@@ -3,6 +3,8 @@ import CreateProductForm from "../product/CreateProductForm";
 import ProductList from "../product/ProductList";
 import EditProductForm from "../product/EditProductForm";
 import type { Product } from "../product/types";
+import api from "@/utils/axios";
+import { toast } from "sonner";
 
 type view = 
 | "list"
@@ -11,6 +13,7 @@ type view =
 
 function ProductPanel() {
     const [view,setView] = useState<view>("list")
+    const [creating,setCreating] = useState(false)
 
     const gotoList = ()=>{
         setView("list")
@@ -19,9 +22,14 @@ function ProductPanel() {
 
     const handleCreate = async (product:Product)=>{
         try {
-            
+            setCreating(true)
+            const response = await api.post("/api/product/create",product)
+
+            console.log(response.data)
+            toast.success("Product Created")
         } catch (error) {
-            
+            console.log(error)
+            toast.error("failed to create product")
         }
     }
 
@@ -39,6 +47,7 @@ function ProductPanel() {
             <CreateProductForm
             onCreate={handleCreate}
             onCancel={gotoList}
+            loading={creating}
             />
         )}
 

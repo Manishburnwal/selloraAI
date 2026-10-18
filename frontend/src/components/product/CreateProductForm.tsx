@@ -5,15 +5,21 @@ import { Label } from "../ui/label"
 import { Input } from "../ui/input"
 import { Textarea } from "../ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
+import ProductLinksEditor from "./ProductLinksEditor"
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
+import { Button } from "../ui/button"
+import { toast } from "sonner"
 
 interface createProductProps{
     onCreate: (product:Product)=>void
-    onCancel: ()=>void
+    onCancel: ()=>void,
+    loading:boolean
 }
 
 function CreateProductForm({
     onCreate,
-    onCancel
+    onCancel,
+    loading
 }:createProductProps) {
 
     const [title, setTitle] = useState("")
@@ -23,6 +29,24 @@ function CreateProductForm({
     const [price, setPrice] = useState("")
     const [links, setLinks] = useState<ProductLinkItem[]>([])
     const [status, setStatus] = useState<ProductStatus>("draft")
+
+
+    const handleSubmit = ()=>{
+        if(!title || !slug || !description || !type || !price){
+            toast.error("Please fill all required fields.")
+            return
+        }
+
+        onCreate({
+            title,
+            slug,
+            description,
+            type,
+            price: Number(price),
+            links,
+            status
+        })
+    }
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
@@ -167,12 +191,43 @@ function CreateProductForm({
                             </div>
 
                         </div>
+
+                        <ProductLinksEditor links={links} onChange={setLinks}/>
+
                     </section>
 
+
+                    <section className="space-y-3">
+                        <h2 className="text-lg font-semibold text-slate-900 border-b pb-3">Status</h2>
+
+                        <RadioGroup value={status} onValueChange={(v)=>setStatus(v as ProductStatus)} className="flex items-center gap-2">
+                            <div className="flex items-center gap-2">
+                                <RadioGroupItem value="draft" id="draft"/>
+                                <Label htmlFor="draft" className="font-normal cursor-pointer">
+                                        Draft
+                                </Label>
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                                <RadioGroupItem value="published" id="published"/>
+                                <Label htmlFor="published" className="font-normal cursor-pointer">
+                                        Published
+                                </Label>
+                            </div>
+                        </RadioGroup>
+                    </section>
+                </div>
+
+                <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 border-t px-4 sm:px-8 py-5 bg-slate-50 rounded-b-xl">
+                    <Button disabled={loading} onClick={onCancel} variant="outline" className="w-full sm:w-auto">
+                        Cancel
+                    </Button>
+
+                    <Button disabled={loading} onClick={handleSubmit} variant="outline" className="bg-indigo-600 hover:bg-indigo-700 text-white w-full sm:w-auto">
+                        {loading ? "Creating..." : "Create Product"}
+                    </Button>
                 </div>
             </div>
-
-            <div></div>
         </div>
     </div>
   )
