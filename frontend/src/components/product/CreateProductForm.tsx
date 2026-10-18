@@ -9,6 +9,7 @@ import ProductLinksEditor from "./ProductLinksEditor"
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
 import { Button } from "../ui/button"
 import { toast } from "sonner"
+import ProductPreviewCard from "./ProductPreviewCard"
 
 interface createProductProps{
     onCreate: (product:Product)=>void
@@ -227,6 +228,13 @@ function CreateProductForm({
                         {loading ? "Creating..." : "Create Product"}
                     </Button>
                 </div>
+            </div>
+
+
+            <div>
+                <ProductPreviewCard title={title} price={Number(price) || 0} description={description}
+                type={type}
+                status={status}/>
             </div>
         </div>
     </div>
