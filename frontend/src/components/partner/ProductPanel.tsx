@@ -1,7 +1,15 @@
+import { useState } from "react";
+
+type view = 
+| "list"
+| "create"
+| "edit";
+
 function ProductPanel() {
+    const [view,setView] = useState<view>("list")
   return (
-    <div className="text-3xl">
-      Product Panel
+    <div className="">
+        
     </div>
   )
 }
