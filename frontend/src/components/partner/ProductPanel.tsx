@@ -2,6 +2,7 @@ import { useState } from "react";
 import CreateProductForm from "../product/CreateProductForm";
 import ProductList from "../product/ProductList";
 import EditProductForm from "../product/EditProductForm";
+import type { Product } from "../product/types";
 
 type view = 
 | "list"
@@ -10,17 +11,46 @@ type view =
 
 function ProductPanel() {
     const [view,setView] = useState<view>("list")
+
+    const gotoList = ()=>{
+        setView("list")
+    }
+
+
+    const handleCreate = async (product:Product)=>{
+        try {
+            
+        } catch (error) {
+            
+        }
+    }
+
+    const handleEditProduct = async (product:Product)=>{
+        alert("edit")
+    }
+
+    const handleDelete = async (product:Product)=>{
+        alert("delete")
+    }
+
   return (
     <div className="min-h-screen bg-slate-50">
         {view==="create" && (
-            <CreateProductForm/>
+            <CreateProductForm
+            onCreate={handleCreate}
+            onCancel={gotoList}
+            />
         )}
 
         {view==="list" && (
-            <ProductList/>
+            <ProductList 
+            onCreateClick={()=>setView("create")}
+            onEditClick={handleEditProduct}
+            onDeleteClick={handleDelete}
+            />
         )}
 
-        {view==="create" && (
+        {view==="edit" && (
             <EditProductForm/>
         )}
     </div>
