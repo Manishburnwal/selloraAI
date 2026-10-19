@@ -26,9 +26,12 @@ function ProductPanel() {
             const response = await api.post("/api/product/create",product)
 
             console.log(response.data)
+            gotoList()
             toast.success("Product Created")
+            setCreating(false)
         } catch (error) {
             console.log(error)
+            setCreating(false)
             toast.error("failed to create product")
         }
     }
