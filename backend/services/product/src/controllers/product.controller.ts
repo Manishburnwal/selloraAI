@@ -112,3 +112,45 @@ export const getAllPartnerProduct = async(req:Request, res:Response)=>{
         }) 
     }
 }
+
+
+export const updateProduct = async (req:Request, res:Response)=>{
+    try {
+        const partnerId = req.headers["x-user-id"] as string
+        
+        const product = await Product.findOne({
+            _id:req.params.id,
+            partnerId:partnerId
+        })
+        if(!product){
+            return res.status(404).json({
+                success:false,
+                message:"Product not found"
+            }) 
+        }
+        const {title, description, type, price, status, links} = req.body;
+
+        product.title = title ?? product.title;
+        product.description = description ?? product.description;
+        product.type = type ?? product.type;
+        product.price = price ?? product.price;
+        product.links = links ?? product.links;
+        product.status = status ?? product.status;
+
+        await product.save()
+
+        await redis.del(`products:${partnerId}`)
+
+        return res.status(200).json({
+            success:true,
+            message:"Product updated",
+            product
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            success:false,
+            message:"Failed to update product"
+        })
+    }
+}
