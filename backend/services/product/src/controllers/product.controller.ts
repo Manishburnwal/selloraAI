@@ -154,3 +154,34 @@ export const updateProduct = async (req:Request, res:Response)=>{
         })
     }
 }
+
+
+export const deleteProduct = async (req:Request, res:Response)=>{
+    try {
+        const partnerId = req.headers["x-user-id"] as string
+        
+        const product = await Product.findOneAndDelete({
+            _id:req.params.id,
+            partnerId:partnerId
+        })
+
+        await redis.del(`products:${partnerId}`)
+
+        if(!product){
+            return res.status(404).json({
+                success:false,
+                message:"Product not found"
+            }) 
+        }
+
+        return res.status(200).json({
+            success:true,
+            message:"Product deleted"
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success:false,
+            message:"Failed to delete product"
+        })
+    }
+}
