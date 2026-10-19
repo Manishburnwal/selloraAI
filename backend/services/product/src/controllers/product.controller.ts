@@ -108,7 +108,7 @@ export const getAllPartnerProduct = async(req:Request, res:Response)=>{
     } catch (error) {
         return res.status(500).json({
             success:false,
-            message:"Failed to get partner's Products."
+            message:"Failed to get partner's Products.."
         }) 
     }
 }
