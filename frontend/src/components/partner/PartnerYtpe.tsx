@@ -1,7 +1,7 @@
 function PartnerYtpe() {
   return (
-    <div>
-      
+    <div className="text-3xl">
+      Hi
     </div>
   )
 }
