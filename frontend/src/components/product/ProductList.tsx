@@ -3,6 +3,7 @@ import { Button } from "../ui/button"
 import type { Product } from "./types"
 
 interface productlistProps{
+    products:Product[]
     onCreateClick: ()=>void
     onEditClick: (product:Product)=>void
     onDeleteClick: (product:Product)=>void
@@ -10,6 +11,7 @@ interface productlistProps{
 
 
 function ProductList({
+    products,
     onCreateClick,
     onEditClick,
     onDeleteClick
