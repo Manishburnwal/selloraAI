@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreateProductForm from "../product/CreateProductForm";
 import ProductList from "../product/ProductList";
 import EditProductForm from "../product/EditProductForm";
@@ -14,6 +14,25 @@ type view =
 function ProductPanel() {
     const [view,setView] = useState<view>("list")
     const [creating,setCreating] = useState(false)
+    const [products, setProducts] = useState<Product[]>([])
+    const [loading, setLoading] = useState(false)
+
+
+    const fetchProducts = async ()=>{
+        try {
+            setLoading(true)
+            const response = await api.get("/api/product/all")
+            console.log(response)
+            setLoading(false)
+        } catch (error) {
+            console.log(error)
+            setLoading(false)
+        }
+    }
+
+    useEffect(()=>{
+        fetchProducts()
+    },[])
 
     const gotoList = ()=>{
         setView("list")
