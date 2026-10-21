@@ -1,6 +1,10 @@
-import { Plus } from "lucide-react"
+import { Filter, Plus, Search } from "lucide-react"
 import { Button } from "../ui/button"
 import type { Product } from "./types"
+import { Input } from "../ui/input"
+import { useState } from "react"
+import { CategoryIcon } from "./ProductMetaType"
+import { Badge } from "../ui/badge"
 
 interface productlistProps{
     products:Product[]
@@ -16,6 +20,10 @@ function ProductList({
     onEditClick,
     onDeleteClick
 }:productlistProps) {
+
+    const [query, setQuery] = useState("")
+
+    const filterProducts = products.filter((product)=>product.title.toLowerCase().includes(query.toLowerCase()))
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
         {/* Header */}
@@ -32,6 +40,90 @@ function ProductList({
                 <Plus className="w-4 h-4"/>
                 Create Product
             </Button>
+        </div>
+
+
+        {/* table */}
+
+        <div className="rounded-xl border bg-white shadow-sm overflow-hidden">
+            {/* filter */}
+
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 border-b">
+                <div className="relative w-full sm:w-72">
+                    <Search className="h-4 w-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"/>
+                    <Input
+                    placeholder="Filter products..."
+                    className="pl-9"
+                    onChange={(e)=>setQuery(e.target.value)}
+                    value={query}
+                    />
+                </div>
+
+                <Button variant="outline" className="gap-1.5 w-full sm:w-auto">
+                    <Filter className="w-4 h-4"/>
+                    Filter
+                </Button>
+
+            </div>
+
+
+            <div className="overflow-x-auto">
+                <table className="w-full text-sm min-w-[720px]">
+                    <thead>
+                        <tr className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+                            <th className="text-left font-medium px-4 py-3">Product</th>
+                            <th className="text-left font-medium px-4 py-3">Price</th>
+                            <th className="text-left font-medium px-4 py-3">Status</th>
+                            <th className="text-right font-medium px-4 py-3 text-nowrap">Total Sales</th>
+                            <th className="text-right font-medium px-4 py-3">Revenue</th>
+                            <th className="text-left font-medium px-4 py-3">Created At</th>
+                            <th className="px-4 py-3"/>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y">
+                        {filterProducts.map((product,index)=>(
+                            <tr key={index} className="hover:bg-slate-50/60 transition-colors">
+                                <td className="px-4 py-3">
+                                    <div className="flex items-center gqp-3">
+                                        <CategoryIcon type={product.type} size="sm"/>
+                                        <div>
+                                            <p className="font-medium text-nowrap text-slate-900">{product.title}</p>
+
+                                            <p className="text-xs text-nowrap text-slate-400">{product.slug}</p>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td className="px-4 py-3 text-slate-700">
+                                ₹{product.price.toFixed(2)}
+                                </td>
+
+                                <td className="px-4 py-3">
+                                    <Badge className={product.status==="published" ? "bg-green-100 text-green-700 hover:bg-green-50" : "bg-slate-100 text-slate-600 hover:bg-slate-50"}>
+                                        {
+                                            product.status==="published" ? "Published" : "Draft"
+                                        }
+                                    </Badge>
+                                </td>
+
+                                <td className="px-4 py-3 text-right text-slate-700">{product.totalSales ?? 0}</td>
+
+                                <td className="px-4 py-3 text-right text-slate-700">₹{(product.totalRevenue ?? 0).toFixed(2)}</td>
+
+                                <td className="px-4 py-3 text-slate-500 whitespace-nowrap">{new Date(product.createdAt ?? "").toLocaleDateString("en-IN",{
+                                    day:"2-digit",
+                                    month:"short",
+                                    year:"numeric"
+                                })}</td>
+
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+
+
+            </div>
+
         </div>
     </div>
   )

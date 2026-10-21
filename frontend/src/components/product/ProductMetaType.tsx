@@ -75,6 +75,22 @@ const SIZE_CLASSES = {
     xl: { box: "h-28 w-28 sm:h-32 sm:w-32 rounded-3xl", icon: "h-10 w-10" },
 };
 
+interface CategoryIconProps{
+    type:ProductType;
+    size?: keyof typeof SIZE_CLASSES;
+}
+
+export const CategoryIcon = ({type,size="md"}:CategoryIconProps)=>{
+    const meta = PRODUCT_META_TYPES[type] ?? PRODUCT_META_TYPES.other;
+    const Icon = meta.icon;
+    const sizing = SIZE_CLASSES[size];
+    return (
+        <div className={`flex items-center justify-center shrink-0 ${meta.className} ${sizing.box}`}>
+            <Icon className={sizing.icon}/>
+        </div>
+    )
+}
+
 
 interface categoryProps{
     type: ProductType;
