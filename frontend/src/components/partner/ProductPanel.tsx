@@ -17,8 +17,10 @@ type view =
 function ProductPanel() {
     const [view,setView] = useState<view>("list")
     const [creating,setCreating] = useState(false)
+    const [updating,setUpdating] = useState(false)
     const [products, setProducts] = useState<Product[]>([])
     const [loading, setLoading] = useState(false)
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
 
     const {partner} = useSelector((state:RootState)=>state.user)
 
@@ -111,8 +113,27 @@ function ProductPanel() {
         }
     }
 
-    const handleEditProduct = async (product:Product)=>{
-        alert("edit")
+    const handleEditClick = async (product:Product)=>{
+        setSelectedProduct(product)
+        setView('edit')
+    }
+
+
+    const handleEditProduct = async (updated:Product)=>{
+        try {
+            setUpdating(true)
+            const response = await api.patch(`/api/product/${updated._id}/update`,updated)
+            if(response.data.success){
+                setProducts((prev)=>prev.map((product)=>product._id===updated._id ? response.data.product : product))
+                setUpdating(false)
+                gotoList()
+            }
+            toast.success("Product Updated.")
+        } catch (error) {
+            console.log(error)
+            setUpdating(false)
+            toast.error("Failed to update product.")
+        }
     }
 
     const handleDelete = async (product:Product)=>{
@@ -150,13 +171,19 @@ function ProductPanel() {
             <ProductList
             products={products} 
             onCreateClick={()=>setView("create")}
-            onEditClick={handleEditProduct}
+            onEditClick={handleEditClick}
             onDeleteClick={handleDelete}
             />
         )}
 
         {view==="edit" && (
-            <EditProductForm/>
+            selectedProduct && (<EditProductForm
+            product={selectedProduct}
+            onSave={handleEditProduct}
+            onDelete={handleDelete}
+            onCancel={gotoList}
+            loading={updating}
+            />)
         )}
     </div>
   )
