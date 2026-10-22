@@ -167,6 +167,16 @@ function ProductList({
 
                             </tr>
                         ))}
+
+
+                        {
+                            filterProducts.length === 0 && <tr>
+                                <td colSpan={8} className="px-4 py-10 text-center text-slate-400">
+                                    No products found.
+                                </td>
+                            </tr>
+                        }
+
                     </tbody>
                 </table>
 
