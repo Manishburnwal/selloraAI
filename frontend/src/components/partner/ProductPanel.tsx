@@ -136,8 +136,26 @@ function ProductPanel() {
         }
     }
 
+
     const handleDelete = async (product:Product)=>{
-        alert("delete")
+        const confirmed = window.confirm(
+            `Delete "${product.title}"? This cannot be undone.`
+        )
+        if(!confirmed){
+            return
+        }
+        try {
+            const response = await api.delete(`/api/product/${product._id}/delete`)
+            if(response.data.success){
+                setProducts((prev)=>prev.filter((p)=>p._id !== product._id))
+                gotoList()
+            }
+            toast.success("Product Deleted.")
+
+        } catch (error) {
+            console.log(error)
+            toast.error("Failed to delete product.")
+        }
     }
 
     if(loading){
