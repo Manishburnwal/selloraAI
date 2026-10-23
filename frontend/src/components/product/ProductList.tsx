@@ -6,6 +6,7 @@ import { useState } from "react"
 import { CategoryIcon } from "./ProductMetaType"
 import { Badge } from "../ui/badge"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu"
+import { toast } from "sonner"
 
 interface productlistProps{
     products:Product[]
@@ -124,6 +125,16 @@ function ProductList({
                                         variant="outline"
                                         className="h-8 gap-1.5 text-xs"
                                         size="sm"
+                                        onClick={async ()=> {
+                                            const url = `${window.location.origin}/product/${product.slug}`
+
+                                            try {
+                                                await navigator.clipboard.writeText(url)
+                                                toast("Product link copied!")
+                                            } catch (error) {
+                                                console.log(error)
+                                            }
+                                        }}
                                         >
                                             <Share2 className="h-3.5 w-3.5"/>
                                             Share Link
@@ -133,6 +144,7 @@ function ProductList({
                                         <Button
                                         variant="ghost"
                                         size="icon"
+                                        onClick={()=>window.open(`/product/${product.slug}`,"_blank", "noopener noreferrer")}
                                         className="h-8 w-8"
                                         title="Open product"
                                         >

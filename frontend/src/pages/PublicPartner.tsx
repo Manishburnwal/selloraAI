@@ -7,6 +7,9 @@ import { useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 import logo from "../assets/logo.png"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { FaGithub, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa"
+import { CategoryThumbnail, PRODUCT_META_TYPES } from "@/components/product/ProductMetaType"
+import { Badge } from "@/components/ui/badge"
 
 function PublicPartner() {
     const {slug} = useParams<{slug:string}>()
@@ -85,14 +88,132 @@ function PublicPartner() {
                     <a 
                     target="_blank"
                     rel="noopener noreferrer"
-                    href={partner.partnerProfile.website} 
+                    href={
+                        partner.partnerProfile.website.startsWith("http://") ||
+                        partner.partnerProfile.website.startsWith("https://")
+                          ? partner.partnerProfile.website
+                          : `https://${partner.partnerProfile.website}`
+                    }
                     className="inline-flex items-center gap-1.5 text-indigo-600 hover:underline mt-3 text-sm sm:text-base break-all">
                         <Link2 className="h-4 w-4 shrink-0"/>
                         {partner.partnerProfile.website}
                     </a>
                 }
 
+
+                <div className="flex items-center justify-center gap-3 mt-5 flex-wrap">
+                    {partner.partnerProfile.socialLinks?.youtube &&
+                    <a 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={
+                        partner.partnerProfile.socialLinks?.youtube.startsWith("http://") ||
+                        partner.partnerProfile.socialLinks?.youtube.startsWith("https://")
+                          ? partner.partnerProfile.socialLinks?.youtube
+                          : `https://${partner.partnerProfile.socialLinks?.youtube}`
+                    }
+                    className="h-10 w-10 sm:h-11 sm:w-11 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center hover:bg-indigo-100 transition-colors">
+                        <FaYoutube className="h-4 w-4 shrink-0"/>
+                    </a>
+                    }
+
+                    {partner.partnerProfile.socialLinks?.instagram &&
+                    <a 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={
+                        partner.partnerProfile.socialLinks?.instagram.startsWith("http://") ||
+                        partner.partnerProfile.socialLinks?.instagram.startsWith("https://")
+                          ? partner.partnerProfile.socialLinks?.instagram
+                          : `https://${partner.partnerProfile.socialLinks?.instagram}`
+                    }
+                    className="h-10 w-10 sm:h-11 sm:w-11 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center hover:bg-indigo-100 transition-colors">
+                        <FaInstagram className="h-4 w-4 shrink-0"/>
+                    </a>
+                    }
+
+                    {partner.partnerProfile.socialLinks?.linkedin &&
+                    <a 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={
+                        partner.partnerProfile.socialLinks?.linkedin.startsWith("http://") ||
+                        partner.partnerProfile.socialLinks?.linkedin.startsWith("https://")
+                          ? partner.partnerProfile.socialLinks?.linkedin
+                          : `https://${partner.partnerProfile.socialLinks?.linkedin}`
+                    }
+                    className="h-10 w-10 sm:h-11 sm:w-11 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center hover:bg-indigo-100 transition-colors">
+                        <FaLinkedin className="h-4 w-4 shrink-0"/>
+                    </a>
+                    }
+
+                    {partner.partnerProfile.socialLinks?.github &&
+                    <a 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={
+                        partner.partnerProfile.socialLinks?.github.startsWith("http://") ||
+                        partner.partnerProfile.socialLinks?.github.startsWith("https://")
+                          ? partner.partnerProfile.socialLinks?.github
+                          : `https://${partner.partnerProfile.socialLinks?.github}`
+                    }
+                    className="h-10 w-10 sm:h-11 sm:w-11 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center hover:bg-indigo-100 transition-colors">
+                        <FaGithub className="h-4 w-4 shrink-0"/>
+                    </a>
+                    }
+                    
+
+                </div>
+
             </div>
+
+            <div className="mt-10 sm:mt-14">
+                <h2 className="text-xl sm:text-2xl font-bold text-slate-900 border-b pb-4 mb-6">
+                    Products by {partner.name}
+                </h2>
+                {products.length===0 ? 
+                (<p className="text-slate-400 text-sm">
+                    This creator has not listed any products yet.
+                </p>):(
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+                        {products.map((product)=>{
+                            const metaType = PRODUCT_META_TYPES[product.type]
+                            return (
+                                <div key={product._id} className="rounded-2xl border bg-white overflow-hidden cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all">
+                                    <div className="relative h-36 sm:h-40 w-full">
+                                        <CategoryThumbnail type={product.type} fill className="rounded-none"/>
+                                    </div>
+
+                                    <div className="p-4 sm:p-5 space-y-2">
+                                        <Badge className={`${metaType?.className}`}>
+                                            {metaType.label ?? product.type}
+                                        </Badge>
+
+                                        <h3 className="font-semibold text-slate-900 leading-snug">{product.title}</h3>
+
+                                        <p className="text-sm text-slate-500 line-clamp-2">{product.description}</p>
+
+                                        <div className="flex items-center justify-between pt-2">
+
+                                            <p className="text-lg font-bold text-slate-900">₹{product.price}</p>
+                                            <Button variant="outline" size="sm" onClick={()=>window.open(`/product/${product.slug}`,"_blank", "noopener noreferrer")}>
+                                                View Product
+                                            </Button>
+
+                                        </div>
+                                    </div>
+
+                                    
+
+                                </div>
+                            )
+                        })}
+                    </div>
+                )
+                }
+
+            </div>
+
         </div>
     </div>
   )
