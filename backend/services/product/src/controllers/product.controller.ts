@@ -185,3 +185,41 @@ export const deleteProduct = async (req:Request, res:Response)=>{
         })
     }
 }
+
+
+
+export const getAllPublicProducts = async(req:Request, res:Response)=>{
+    try {
+        // redis
+        const cachedProducts = await redis.get("public:products")
+        if(cachedProducts){
+            const products = JSON.parse(cachedProducts)
+            return res.status(200).json({
+                success:true,
+                products,
+                source:"redis"
+            })
+        }
+
+
+
+        // mongodb
+        const products = await Product.find({
+            status:"published"
+        }).sort({createdAt:-1})
+
+        await redis.set("public:products",JSON.stringify(products),"EX",60*10)
+
+        return res.status(200).json({
+            success:true,
+            products,
+            source:"mongoDb"
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            success:false,
+            message:"Failed to fetch products."
+        })
+    }
+}
