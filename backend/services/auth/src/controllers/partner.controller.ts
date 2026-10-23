@@ -223,6 +223,8 @@ export const updatePartner = async (req:Request, res:Response)=>{
             JSON.stringify(updatedPartner)
         )
 
+        await redis.del("public:partners")
+
         return res.status(200).json({
             success:true,
             message:"Partner profile updated successfully",

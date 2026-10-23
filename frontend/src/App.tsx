@@ -6,6 +6,7 @@ import type { RootState } from "./redux/store";
 import Admin from "./pages/Admin";
 import Partner from "./pages/Partner";
 import { Toaster } from "./components/ui/sonner";
+import { getAllPublicData } from "./hooks/useGetAllPublicData";
 
 interface IPartnerprofile {
   slug? : string;
@@ -67,6 +68,7 @@ export interface IAdmin{
 
 function App() {
   getCurrentUser()
+  getAllPublicData()
 
   const {user, loading} = useSelector((state:RootState)=>state.user)
   if(loading){

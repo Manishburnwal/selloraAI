@@ -46,6 +46,14 @@ export const createProduct = async(req:Request, res:Response)=>{
             status:status || "draft"
         })
 
+
+        await redis.del(`products:${partnerId}`)
+
+        if(product.status==="published"){
+            await redis.del("public:products")
+        }
+
+
         return res.status(201).json({
             success:true,
             message:"Product created successfully",
@@ -141,6 +149,10 @@ export const updateProduct = async (req:Request, res:Response)=>{
 
         await redis.del(`products:${partnerId}`)
 
+        if(product.status==="published"){
+            await redis.del("public:products")
+        }
+
         return res.status(200).json({
             success:true,
             message:"Product updated",
@@ -166,6 +178,8 @@ export const deleteProduct = async (req:Request, res:Response)=>{
         })
 
         await redis.del(`products:${partnerId}`)
+
+        await redis.del("public:products")
 
         if(!product){
             return res.status(404).json({
