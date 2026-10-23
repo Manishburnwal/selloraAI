@@ -7,6 +7,8 @@ import Admin from "./pages/Admin";
 import Partner from "./pages/Partner";
 import { Toaster } from "./components/ui/sonner";
 import { getAllPublicData } from "./hooks/useGetAllPublicData";
+import PublicPartner from "./pages/PublicPartner";
+import PublicProduct from "./pages/PublicProduct";
 
 interface IPartnerprofile {
   slug? : string;
@@ -102,6 +104,10 @@ function App() {
         ) : (
         <Navigate to="/" replace/>
         ) }/>  
+
+        <Route path="/partner/:slug" element={<PublicPartner/>}/>
+
+        <Route path="/product/:slug" element={<PublicProduct/>}/>
 
       </Routes>
     </>

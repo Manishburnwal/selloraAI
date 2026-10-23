@@ -9,6 +9,7 @@ import { Textarea } from "../ui/textarea";
 import { FaGithub, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa"
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Badge } from "../ui/badge";
+import { useNavigate } from "react-router-dom";
 
 interface profilePanelProps{
     partner:IUser;
@@ -27,6 +28,8 @@ function ProfilePanel({
 }:profilePanelProps) {
 
     const [form,setForm]=useState<IUser>(partner);
+
+    const navigate = useNavigate()
 
     const updateUser = (
         key:"name",
@@ -88,7 +91,7 @@ function ProfilePanel({
                 <p className="mt-1 text-slate-500">Set up your profile and payment details to start selling digital products on SelloraAI.</p>
             </div>
             {partner?.partnerProfile?.slug && 
-            <Button variant="outline" className="shrink-0">
+            <Button onClick={()=>navigate(`/partner/${partner.partnerProfile?.slug}`)} variant="outline" className="shrink-0">
                 <ExternalLink className="mr-2 w-4 h-4"/>
                 View Public Profile
             </Button>

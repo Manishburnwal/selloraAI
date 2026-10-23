@@ -4,6 +4,7 @@ import DeactivateNote from "@/components/partner/DeactivateNote"
 import PartnerNav, { type PartnerTab } from "@/components/partner/PartnerNav"
 import ProductPanel from "@/components/partner/ProductPanel"
 import ProfilePanel from "@/components/partner/ProfilePanel"
+import { getCurrentUser } from "@/hooks/useGetCurrentUser"
 import type { AppDispatch, RootState } from "@/redux/store"
 import { setPartner } from "@/redux/userSlice"
 import api from "@/utils/axios"
@@ -16,6 +17,8 @@ function Partner() {
     const [saving,setSaving] = useState(false)
 
     const dispatch = useDispatch<AppDispatch>()
+
+    getCurrentUser()
 
     const {partner} = useSelector((state:RootState)=>state.user)
 
