@@ -244,3 +244,43 @@ export const updatePartner = async (req:Request, res:Response)=>{
         })
     }
 }
+
+
+export const getAllPublicPartners = async (req:Request, res:Response)=>{
+    try {
+        // get from redis
+        const cachedPartners = await redis.get("public:partners")
+        if(cachedPartners){
+            const partners = JSON.parse(cachedPartners)
+            return res.status(200).json({
+                success:true,
+                partners,
+                source:"redis"
+            })
+        }
+
+        // get from mongodb
+        const partners = await User.find({
+            role:"partner",
+            "partnerProfile.slug":{
+                $exists:true,
+                $ne:""
+            }
+        })
+
+        await redis.set("public:partners",
+            JSON.stringify(partners),"EX",60*10
+        )
+
+        return res.status(200).json({
+            success:true,
+            partners,
+            source:"monogDb"
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success:false,
+            message:"Failed to fetch partners.."
+        })
+    }
+}
