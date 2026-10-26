@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { razorpay } from "../config/razorpay.js";
 import Order from "../models/order.model.js";
 import { createHmac } from "crypto";
+import redis from "../../../../shared/redis/redis.js"
 
 export const createOrder = async (req:Request, res:Response)=>{
     try {
@@ -111,6 +112,41 @@ export const verifyPayment = async (req:Request, res:Response)=>{
         return res.status(500).json({
             success:false,
             message:"Failed to verify order"
+        })
+    }
+}
+
+
+export const getAllOrders = async(req:Request, res:Response)=>{
+    try {
+        // get order from redis
+
+        const cachedOrders = await redis.get("orders:all")
+        if(cachedOrders){
+            return res.status(200).json({
+                success:true,
+                source:"redis",
+                orders:JSON.parse(cachedOrders)
+            })
+        }
+
+        // get order from mongodb
+        const orders = await Order.find().select(
+            "_id productId partnerId productTitle productPrice customerName customerEmail partnerEmail paymentStatus partnerAmount adminAmount createdAt"
+        ).sort({createdAt:-1})
+
+        await redis.set("orders:all", JSON.stringify(orders),"EX",600)
+
+        return res.status(200).json({
+            success:true,
+            source:"database",
+            orders
+        })
+    } catch (error) {
+        console.log("Get all orders error:",error)
+        return res.status(500).json({
+            success:false,
+            message:"Failed to fetch orders"
         })
     }
 }
