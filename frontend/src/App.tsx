@@ -68,6 +68,31 @@ export interface IAdmin{
   email:string
 }
 
+
+export interface Order {
+  _id: string;
+
+  productId: string;
+  partnerId: string;
+
+  productTitle: string;
+  productPrice: number;
+
+  customerName: string;
+  customerEmail: string;
+  partnerEmail: string;
+
+  paymentStatus:
+      | "pending"
+      | "success"
+      | "failed";
+
+  partnerAmount: number;
+  adminAmount: number;
+  createdAt: string;
+  updatedAt?: string;
+}
+
 function App() {
   getCurrentUser()
   getAllPublicData()

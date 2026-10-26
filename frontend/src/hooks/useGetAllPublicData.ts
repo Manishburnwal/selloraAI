@@ -1,4 +1,4 @@
-import { setAllPublicPartners, setAllPublicProducts } from "@/redux/publicSlice"
+import { setAllOrders, setAllPublicPartners, setAllPublicProducts } from "@/redux/publicSlice"
 import type { AppDispatch } from "@/redux/store"
 import api from "@/utils/axios"
 import { useEffect } from "react"
@@ -33,7 +33,21 @@ export const getAllPublicData = ()=>{
             }
         }
 
+
+        const getAllOrders = async ()=>{
+            try {
+                const response = await api.get("/api/order/all")
+                if(response.data.success){
+                    dispatch(setAllOrders(response.data.orders ?? []))
+                }
+            } catch (error) {
+                console.log(error)
+                dispatch(setAllOrders([]))
+            }
+        }
+
         getAllPartners()
         getAllProducts()
+        getAllOrders()
     },[])
 }

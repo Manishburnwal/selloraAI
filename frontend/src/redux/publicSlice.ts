@@ -1,16 +1,18 @@
-import type { IUser } from "@/App";
+import type { IUser, Order } from "@/App";
 import type { Product } from "@/components/product/types";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 
 interface publicState{
     allPublicPartners:IUser[],
-    allPublicProducts:Product[]
+    allPublicProducts:Product[],
+    allOrders:Order[]
 }
 
 const initialState : publicState = {
     allPublicPartners:[],
-    allPublicProducts:[]
+    allPublicProducts:[],
+    allOrders:[]
 }
 
 const publicSlice = createSlice({
@@ -22,14 +24,18 @@ const publicSlice = createSlice({
         },
         setAllPublicProducts:(state,action:PayloadAction<Product[]>)=>{
             state.allPublicProducts=action.payload
-        }
+        },
+        setAllOrders:(state,action:PayloadAction<Order[]>)=>{
+            state.allOrders=action.payload
+        },
     }
 })
 
 export const {
     
     setAllPublicPartners, 
-    setAllPublicProducts
+    setAllPublicProducts,
+    setAllOrders
 
 } = publicSlice.actions
 
