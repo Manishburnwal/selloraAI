@@ -146,6 +146,29 @@ function PublicProduct() {
         }
     }
 
+
+    const handleDownload = async (url:string)=>{
+        try {
+            const response = await api.post("/api/public-product/download",{url},{
+                responseType:"blob"
+            })
+
+            const BlobUrl = window.URL.createObjectURL(response.data)
+
+            const link = document.createElement("a");
+            link.href = BlobUrl;
+            link.download = "product";
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+
+            window.URL.revokeObjectURL(BlobUrl);
+        } catch (error) {
+            console.log(error)
+            toast.error("Download failed..")
+        }
+    }
+
     const metaType = PRODUCT_META_TYPES[product?.type]
 
   return (
@@ -225,7 +248,7 @@ function PublicProduct() {
                                     </div>
 
                                     {unlocked ? 
-                                    <Button>
+                                    <Button onClick={()=>handleDownload(unlocked.url)}>
                                         Download
                                     </Button>
                                     :
