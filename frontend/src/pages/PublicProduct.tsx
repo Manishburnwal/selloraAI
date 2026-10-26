@@ -106,7 +106,31 @@ function PublicProduct() {
                 },
                 handler:
                 async function(response:any) {
-                    console.log(response)
+                    try {
+                        const verifyResponse = await api.post("/api/order/verify",{response})
+
+                        if(verifyResponse.data.success){
+                            toast.success("Payment successful..")
+
+                            await api.post("/api/auth/partner/update-sale",{partnerId:product.partnerId, amount:product.price})
+
+                            await api.post("/api/public-product/update-sale",{
+                                productId:product._id,
+                                amount:product.price
+                            })
+
+                            setPurchasedLinks(product.links ?? [])
+
+                            setIsBuyOpen(false)
+                            setProcessing(false)
+                        }
+                    } catch (error) {
+                        toast.error(
+                            "Payment verification failed.."
+                        )
+                        setIsBuyOpen(false)
+                        setProcessing(false)
+                    }
                 }
             }
 

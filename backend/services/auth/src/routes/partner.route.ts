@@ -6,6 +6,6 @@ const partnerRouter = express.Router()
 partnerRouter.get("/get",getPartner)
 partnerRouter.patch("/update",updatePartner)
 partnerRouter.get("/all",getAllPublicPartners)
-partnerRouter.post("/updateSale",updatePartnerSales)
+partnerRouter.post("/update-sale",updatePartnerSales)
 
 export default partnerRouter
