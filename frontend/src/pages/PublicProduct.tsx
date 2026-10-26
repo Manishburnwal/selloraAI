@@ -13,6 +13,8 @@ import type { ProductLinkItem } from "@/components/product/types"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
+import { toast } from "sonner"
+import api from "@/utils/axios"
 
 function PublicProduct() {
     const {slug} = useParams<{slug:string}>()
@@ -66,10 +68,54 @@ function PublicProduct() {
     }
 
     const handlePay = async ()=>{
-        setProcessing(true)
-        setPurchasedLinks(product?.links)
-        setIsBuyOpen(false)
-        setProcessing(false)
+        if(!buyerEmail.trim() || !buyerName.trim()){
+            toast.error("Please enter your name and email.");
+            return;
+        }
+        try {
+            setProcessing(true)
+            const response = await api.post("/api/order/create",{
+                productId: product._id,
+                partnerId: product.partnerId,
+                amount: product.price,
+                customerName: buyerName,
+                customerEmail: buyerEmail,
+                partnerEmail: creator?.email,
+                productTitle: product.title,
+                links:product.links
+            })
+
+            if(!response.data.success){
+                toast.error("Order creation failed");
+                return;
+            }
+
+            const options = {
+                key:response.data.key,
+                amount:response.data.amount * 100,
+                currency:"INR",
+                name:"SelloraAI",
+                description:product.title,
+                order_id:response.data.razorpayOrderId,
+                prefill:{
+                    name:buyerName,
+                    email:buyerEmail
+                },
+                theme:{
+                    color:"#4f46e5"
+                },
+                handler:
+                async function(response:any) {
+                    console.log(response)
+                }
+            }
+
+            const rzp = new window.Razorpay(options)
+
+            rzp.open()
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     const metaType = PRODUCT_META_TYPES[product?.type]
