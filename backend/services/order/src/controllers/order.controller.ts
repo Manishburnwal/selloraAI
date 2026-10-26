@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { razorpay } from "../config/razorpay.js";
 import Order from "../models/order.model.js";
+import { createHmac } from "crypto";
 
 export const createOrder = async (req:Request, res:Response)=>{
     try {
@@ -51,6 +52,65 @@ export const createOrder = async (req:Request, res:Response)=>{
         return res.status(500).json({
             success:false,
             message:"Failed to create order"
+        })
+    }
+}
+
+
+export const verifyPayment = async (req:Request, res:Response)=>{
+    try {
+        const {
+            razorpay_order_id,
+            razorpay_payment_id,
+            razorpay_signature
+        } = req.body
+
+        if(!razorpay_order_id || !razorpay_payment_id || !razorpay_signature){
+            return res.status(400).json({
+                success:false,
+                message:"Payment details missing"
+            })
+        }
+
+        const generatedSignature = createHmac("sha256",process.env.RAZORPAY_KEY_SECRET!).update(razorpay_order_id + "|" + razorpay_payment_id).digest("hex")
+
+        const order = await Order.findOne({
+            razorpayOrderId: razorpay_order_id
+        })
+
+        if(!order){
+            return res.status(404).json({
+                success:false,
+                message:"Order not found"
+            })
+        }
+
+        if(generatedSignature!==razorpay_signature){
+            order.paymentStatus = "failed"
+            await order.save()
+            return res.status(400).json({
+                success:false,
+                message:"Payment Verification failed..."
+            })
+        }
+
+        order.paymentStatus = "success"
+
+        order.razorpayPaymentId = razorpay_payment_id
+        order.razorpaySignature = razorpay_signature
+
+        await order.save()
+
+        return res.status(200).json({
+            success:false,
+            message:"Payment verified successfully",
+            order
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            success:false,
+            message:"Failed to verify order"
         })
     }
 }
