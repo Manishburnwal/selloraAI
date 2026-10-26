@@ -286,3 +286,59 @@ export const getAllPublicPartners = async (req:Request, res:Response)=>{
         })
     }
 }
+
+
+
+export const updatePartnerSales = async (req:Request, res:Response) => {
+    try {
+        const {
+            partnerId,
+            amount
+        } = req.body
+
+        if(!partnerId || amount===undefined || amount===null){
+            return res.status(400).json({
+                success:false,
+                message:"Partner id and amount are required"
+            })
+        }
+
+        const partner = await User.findOne({
+            _id:partnerId,
+            role:"partner"
+        })
+
+        if(!partner){
+            return res.status(404).json({
+                success:false,
+                message:"Partner not found"
+            })
+        }
+
+        const partnerAmount = Number(amount) * 0.95;
+
+        partner.totalSales += 1
+
+        partner.totalRevenue += partnerAmount
+
+        await partner.save()
+
+        await redis.del("public:partners")
+
+        await redis.del(`partner:${partnerId}`)
+
+        return res.status(200).json({
+            success:true,
+            message:"Partner sale updated",
+            totalSales:partner.totalSales,
+            totalRevenue:partner.totalRevenue
+        })
+
+
+    } catch (error) {
+        return res.status(500).json({
+            success:false,
+            message:"Failed to update partner sale"
+        })
+    }
+}
