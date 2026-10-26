@@ -281,3 +281,57 @@ export const updateProductSales = async (req:Request, res:Response)=>{
         })
     }
 }
+
+
+
+export const handleDownload = async(req:Request, res:Response)=>{
+    try {
+        const {url}=req.body;
+        if(!url){
+            return res.status(400).json({
+                message:"File URL is required"
+            })
+        }
+        const response = await fetch(url)
+        if(!response.ok){
+            return res.status(response.status).json({
+                message:"Unable to fetch file"
+            })
+        }
+
+        const contentType = response.headers.get("content-type") || "applications/octet-stream"
+
+        const contentLength = response.headers.get("content-length")
+
+        res.setHeader("Content-Type",contentType)
+
+        if(contentLength){
+            res.setHeader("Content-Length",contentLength)
+        }
+
+        res.setHeader("Content-Disposition",'attachment; filename="product"')
+
+        if(!response.body){
+            return res.status(500).json({
+                message:"File stream unavailable"
+            })
+        }
+
+        for await (const chunk of response.body as any){
+            res.write(chunk)
+        }
+
+        res.end()
+
+
+    } catch (error) {
+        console.error("Download product error:", error)
+
+        if(!res.headersSent){
+            return res.status(500).json({
+                message:"Download failed"
+            })
+        }
+        res.end()
+    }
+}

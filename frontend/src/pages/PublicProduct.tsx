@@ -107,7 +107,11 @@ function PublicProduct() {
                 handler:
                 async function(response:any) {
                     try {
-                        const verifyResponse = await api.post("/api/order/verify",{response})
+                        const verifyResponse = await api.post("/api/order/verify",{
+                            razorpay_order_id: response.razorpay_order_id,
+                            razorpay_payment_id: response.razorpay_payment_id,
+                            razorpay_signature: response.razorpay_signature
+                        })
 
                         if(verifyResponse.data.success){
                             toast.success("Payment successful..")

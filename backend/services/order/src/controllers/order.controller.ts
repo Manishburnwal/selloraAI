@@ -102,7 +102,7 @@ export const verifyPayment = async (req:Request, res:Response)=>{
         await order.save()
 
         return res.status(200).json({
-            success:false,
+            success:true,
             message:"Payment verified successfully",
             order
         })
