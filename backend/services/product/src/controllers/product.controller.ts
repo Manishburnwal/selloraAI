@@ -237,3 +237,47 @@ export const getAllPublicProducts = async(req:Request, res:Response)=>{
         })
     }
 }
+
+
+
+export const updateProductSales = async (req:Request, res:Response)=>{
+    try {
+        const {productId, amount} = req.body;
+        if(!productId || !amount){
+            return res.status(400).json({
+                success:false,
+                message:"Product id and amount required."
+            })
+        }
+
+        const product = await Product.findById(productId)
+        if(!product){
+            return res.status(404).json({
+                success:false,
+                message:"Product not found"
+            })
+        }
+
+        const partnerRevenue = amount*0.95;
+        product.totalSales += 1;
+        product.totalRevenue += partnerRevenue;
+        await product.save();
+
+        await redis.del(`products:${product.partnerId}`)
+
+        await redis.del("public:products")
+
+        return res.status(200).json({
+            success:true,
+            message:"Product sales updated",
+            product
+        })
+
+
+    } catch (error) {
+        return res.status(500).json({
+            success:false,
+            message:"Failed to update product sales."
+        })
+    }
+}
