@@ -322,7 +322,7 @@ function PublicProduct() {
 
         <Dialog open={isBuyOpen} onOpenChange={setIsBuyOpen}>
             <DialogContent className="overflow-hidden p-0 w-[92vw] sm:w-full rounded-xl">
-                <div className="bg-gradient-to-br from-indigo-600 to-indigo-500 px-5 sm:px-6 py-5 sm:py-6 text-white">
+                <div className="bg-linear-to-br from-indigo-600 to-indigo-500 px-5 sm:px-6 py-5 sm:py-6 text-white">
                      <div className="flex items-center gap-3">
                         <div className="h-10 w-10 sm:h-11 sm:w-11 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
                         <CategoryIcon type={product.type} size="sm"/>
