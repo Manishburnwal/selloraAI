@@ -34,9 +34,12 @@ app.get("/api/me",isAuth,getCurrentUser)
 app.use("/api/auth",proxy(process.env.AUTH_SERVICE_URL as string))
 
 app.use("/api/product",isAuth ,proxyWithHeader(process.env.PRODUCT_SERVICE_URL as string))
+
 app.use("/api/public-product", proxy(process.env.PRODUCT_SERVICE_URL as string))
 
 app.use("/api/order", proxy(process.env.ORDER_SERVICE_URL as string))
+
+app.use("/api/ai",isAuth ,proxyWithHeader(process.env.AI_SERVICE_URL as string))
 
 app.listen(PORT,()=>{
     console.log(`Gateway server running on ${PORT}`)
