@@ -9,7 +9,7 @@ Analyze the partner's digital product business
 using ONLY the data provided below.
 
 Rules:
-
+- All monetary values are in Indian Rupees (INR); always use the ₹ symbol and never use $ or USD.
 - Never invent data.
 - Never change numerical values.
 - Do not mention customer information.
