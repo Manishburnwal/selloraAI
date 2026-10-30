@@ -5,6 +5,7 @@ import { CalendarDays, ExternalLink, IndianRupee, Package, ShoppingBag } from "l
 import { useState } from "react";
 import { CategoryIcon } from "../product/ProductMetaType";
 import { Button } from "../ui/button";
+import AIAnalytics from "./AIAnalytics";
 
 interface StatCardProps {
   label: string;
@@ -47,6 +48,40 @@ function DashboardPanel() {
   const totalRevenue = partner?.totalRevenue ?? 0;
   const totalSales = partner?.totalSales ?? 0;
   const activeProducts = partnerProducts.length;  
+
+  const analyticsData = {
+    partner: {
+      id: partner?._id ?? "",
+      name: partner?.name ?? "",
+    },
+  
+    summary: {
+      totalRevenue: partner?.totalRevenue ?? 0,
+      totalSales: partner?.totalSales ?? 0,
+      totalProducts: partnerProducts.length,
+    },
+
+    products: partnerProducts
+    .filter((product) => product._id)
+    .map((product) => ({
+        id: product._id!,
+        title: product.title,
+        type: product.type,
+        price: product.price,
+        totalSales: product.totalSales ?? 0,
+        totalRevenue: product.totalRevenue ?? 0,
+    })),
+
+    orders: partnerOrders
+    .filter(
+        (order) => order.paymentStatus === "success"
+    )
+    .map((order) => ({
+        productTitle: order.productTitle,
+        partnerAmount: order.partnerAmount,
+        createdAt: order.createdAt,
+    })),
+  }
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10 space-y-6 sm:space-y-8">
@@ -95,6 +130,11 @@ function DashboardPanel() {
         }
         />  
       </div>
+
+
+      <AIAnalytics analyticsData={analyticsData}/>
+
+
 
       <Card className="shadow-sm overflow-hidden">
         <CardHeader className="pb-3 sm:pb-4">
