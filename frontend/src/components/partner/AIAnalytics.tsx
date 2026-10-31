@@ -1,5 +1,5 @@
 import api from "@/utils/axios";
-import { RefreshCw, Sparkles } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Circle, RefreshCw, Sparkles, type LucideIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -59,7 +59,7 @@ interface AIAnalyticsResponse {
     }[];
   };
 
-  ai:{
+  aiResponse:{
     summary: string;
 
     insights: {
@@ -122,6 +122,22 @@ function AIAnalytics({analyticsData}:AIAnalyticsProps) {
         const minutes = Math.ceil(expiresIn/60);
         return `${minutes} mins`
     }
+
+
+    const INSIGHT_META: Record<InsightType, { icon: LucideIcon; className: string }> = {
+        warning: {
+          icon: AlertTriangle,
+          className: "bg-amber-50 text-amber-700 border-amber-200",
+        },
+        neutral: {
+          icon: Circle,
+          className: "bg-slate-50 text-slate-600 border-slate-200",
+        },
+        positive: {
+          icon: CheckCircle2,
+          className: "bg-green-50 text-green-700 border-green-200",
+        },
+    };
 
   return (
     <div className="space-y-5">
@@ -224,9 +240,13 @@ function AIAnalytics({analyticsData}:AIAnalyticsProps) {
 
                                     <XAxis type="number" tick={{fontSize:11, fill:"#64748b"}}/>
 
-                                    <YAxis type="category" dataKey="product" width={120} tick={{fontSize:11, fill:"#64748b"}}/>
+                                    <YAxis type="category" dataKey="product" width={90} tick={{fontSize:11, fill:"#64748b"}}/>
 
-                                    <Tooltip/>
+                                    <Tooltip formatter={(value:any)=>[
+                                        `₹${Number(value).toFixed(2)}`, "Revenue"
+
+                                    ]}/>
+
                                     <Bar dataKey="revenue" fill="url(#salesGradient)" radius={[0,6,6,0]} maxBarSize={48}/>
 
                                 </BarChart>
@@ -235,6 +255,48 @@ function AIAnalytics({analyticsData}:AIAnalyticsProps) {
                         </CardHeader>
                     </Card>
                 </div>
+
+
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-base text-indigo-900">
+                            <Sparkles className="h-4 w-4 text-indigo-600"/>
+                            AI Summary
+                        </CardTitle>
+                    </CardHeader>
+
+                    <CardContent className="text-indigo-800 text-sm leading-relaxed">
+                        <p>{aiResponse.aiResponse.summary}</p>
+                    </CardContent>
+                </Card>
+
+                
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="text-base">
+                            AI Insights
+                        </CardTitle>
+                    </CardHeader>
+
+                    <CardContent className="space-y-3">
+                        {
+                            aiResponse.aiResponse.insights.map((insight,idx)=>{
+                                const meta = INSIGHT_META[insight.type]
+                                const Icon = meta.icon
+                                return (
+                                    <div key={idx} className={`flex items-start gap-3 rounded-lg border px-4 py-3 ${meta.className}`}>
+                                        <Icon className="h-4 w-4 shrink-0 mt-0.5"/>
+                                        <div>
+                                            <p className="font-medium">{insight.title}</p>
+                                            <p className="text-sm opacity-90 mt-0.5">{insight.description}</p>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+                    </CardContent>
+                </Card>
+
             </div>
         )}
 
