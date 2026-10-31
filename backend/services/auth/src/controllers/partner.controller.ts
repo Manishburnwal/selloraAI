@@ -342,3 +342,51 @@ export const updatePartnerSales = async (req:Request, res:Response) => {
         })
     }
 }
+
+
+export const togglePartnerStatus = async (req:Request, res:Response)=>{
+    try {
+        const {partnerId} = req.params
+        if(!partnerId){
+            return res.status(400).json({
+                success:false,
+                message:"Partner ID is required"
+            })
+        }
+        const partner = await User.findOne({
+            _id:partnerId,
+            role:"partner"
+        })
+        if(!partner){
+            return res.status(404).json({
+                success:false,
+                message:"Partner not found"
+            })
+        }
+        partner.isActive = !partner.isActive
+        await partner.save()
+
+        await redis.del("public:partners")
+
+        await redis.del(`partner:${partnerId}`)
+
+        return res.status(200).json({
+            success:true,
+            message:partner.isActive 
+            ? "Partner activated successfully"
+            : "Partner deactivated successfully",
+            partner:{
+                _id:partner._id,
+                name:partner.name,
+                email:partner.email,
+                isActive:partner.isActive
+            }
+        })
+    } catch (error) {
+        console.log("Toggle partner status error:",error)
+        return res.status(500).json({
+            success:false,
+            message:"Failed to update partner status"
+        })
+    }
+}
