@@ -4,18 +4,31 @@ import { useState } from "react"
 import { LayoutDashboard, Wallet } from "lucide-react"
 import AdminDashboard from "@/components/admin/AdminDashboard"
 import PaytoPartner from "@/components/admin/PaytoPartner"
-import { useSelector } from "react-redux"
-import type { RootState } from "@/redux/store"
+import { useDispatch, useSelector } from "react-redux"
+import type { AppDispatch, RootState } from "@/redux/store"
 import type { IUser } from "@/App"
 import { toast } from "sonner"
+import api from "@/utils/axios"
+import { setAllPublicPartners } from "@/redux/publicSlice"
 
 function Admin() {
   const [activeBtn, setActiveBtn] = useState<"dashboard" | "payments">("dashboard")
   const {allPublicPartners, allPublicProducts} = useSelector((state:RootState)=>state.public)
+  const dispatch = useDispatch<AppDispatch>()
   const {admin} = useSelector((state:RootState)=>state.user)
 
   const handleToggleStatus = async (partner:IUser)=>{
-    toast.success("handleToggleStatus function calling")
+    try {
+      const response = await api.get(`/api/auth/partner/${partner._id}/status`)
+      if(response.data.success){
+        toast.success(response.data.message)
+        const updatedPartner = response.data.partner
+        dispatch(setAllPublicPartners(allPublicPartners.map((item)=>item._id === updatedPartner._id ? {...item, isActive:updatedPartner.isActive} : item)))
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error("Failed to update partner status")
+    }
   }
 
 

@@ -7,6 +7,6 @@ partnerRouter.get("/get",getPartner)
 partnerRouter.patch("/update",updatePartner)
 partnerRouter.get("/all",getAllPublicPartners)
 partnerRouter.post("/update-sale",updatePartnerSales)
-partnerRouter.get("/status",togglePartnerStatus)
+partnerRouter.get("/:partnerId/status",togglePartnerStatus)
 
 export default partnerRouter
