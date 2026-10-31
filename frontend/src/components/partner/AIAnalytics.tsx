@@ -1,5 +1,5 @@
 import api from "@/utils/axios";
-import { AlertTriangle, CheckCircle2, Circle, RefreshCw, Sparkles, type LucideIcon } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Circle, ListChecks, RefreshCw, Rocket, Sparkles, Trophy, type LucideIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -297,6 +297,54 @@ function AIAnalytics({analyticsData}:AIAnalyticsProps) {
                     </CardContent>
                 </Card>
 
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2 text-base">
+                                <Trophy className="h-4 w-4 text-amber-500"/>
+                                Top Product
+                            </CardTitle>
+                        </CardHeader>
+
+                        <CardContent>
+                            <p className="font-semibold text-slate-900">{aiResponse.aiResponse.topProduct.title}</p>
+                            <p className="text-slate-500 text-sm mt-1">{aiResponse.aiResponse.topProduct.reason}</p>
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2 text-base">
+                                <Rocket className="h-4 w-4 text-indigo-600"/>
+                                Growth Opportunity
+                            </CardTitle>
+                        </CardHeader>
+
+                        <CardContent>
+                            <p className="text-slate-600 text-sm leading-relaxed">{aiResponse.aiResponse.growthOpportunity}</p>
+                        </CardContent>
+                    </Card>
+                </div>
+
+
+
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-base">
+                            <ListChecks className="h-4 w-4 text-indigo-600"/>
+                            Recommended Actions
+                        </CardTitle>
+                    </CardHeader>
+
+                    <CardContent className="space-y-3">
+                        {aiResponse.aiResponse.recommendations.map((r,i)=>(
+                            <div key={i} className="flex items-start gap-4">
+                                <span className="shrink-0 h-7 w-7 rounded-full bg-indigo-50 text-indigo-600 text-xs font-semibold flex items-center justify-center">{i+1}</span>
+                                <p className="text-sm text-slate-600 leading-relaxed pt-0.5">{r}</p>
+                            </div>
+                        ))}
+                    </CardContent>
+                </Card>
             </div>
         )}
 
