@@ -3,6 +3,7 @@ import { razorpay } from "../config/razorpay.js";
 import Order from "../models/order.model.js";
 import { createHmac } from "crypto";
 import redis from "../../../../shared/redis/redis.js"
+import PartnerPayment from "../models/partnerPayment.model.js";
 
 export const createOrder = async (req:Request, res:Response)=>{
     try {
@@ -147,6 +148,47 @@ export const getAllOrders = async(req:Request, res:Response)=>{
         return res.status(500).json({
             success:false,
             message:"Failed to fetch orders"
+        })
+    }
+}
+
+
+
+export const payPartner = async (req:Request, res:Response)=>{
+    try {
+        const {partnerId, partnerName, partnerEmail, amount} = req.body;
+        if(!partnerId || !partnerEmail || !partnerName || !amount){
+            return res.status(400).json({
+                success:false,
+                message:"Partner details are required"
+            })
+        }
+        if(amount<10000){
+            return res.status(400).json({
+                success:false,
+                message:"Partner is not eligible for payment",
+                amount
+            })
+        }
+
+        const payment = await PartnerPayment.create({
+            partnerId,
+            partnerName,
+            partnerEmail,
+            amount,
+            status:"success"
+        })
+
+        return res.status(200).json({
+            success:true,
+            message:"Partner payment processed successfully",
+            payment
+        })
+    } catch (error) {
+        console.log("Pay partner error:", error)
+        return res.status(500).json({
+            success:false,
+            message:"Failed to process partner amount"
         })
     }
 }
