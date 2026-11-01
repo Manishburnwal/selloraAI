@@ -33,7 +33,7 @@ function Admin() {
 
   const paytoPartner = async (partner:IUser)=>{
     try {
-      toast("click to pay")
+      const response = await
     } catch (error) {
       console.log(error)
     }

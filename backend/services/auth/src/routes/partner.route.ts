@@ -1,5 +1,5 @@
 import express from "express"
-import { getAllPublicPartners, getPartner, togglePartnerStatus, updatePartner, updatePartnerSales } from "../controllers/partner.controller.js"
+import { getAllPublicPartners, getPartner, resetRevenue, togglePartnerStatus, updatePartner, updatePartnerSales } from "../controllers/partner.controller.js"
 
 const partnerRouter = express.Router()
 
@@ -8,5 +8,6 @@ partnerRouter.patch("/update",updatePartner)
 partnerRouter.get("/all",getAllPublicPartners)
 partnerRouter.post("/update-sale",updatePartnerSales)
 partnerRouter.get("/:partnerId/status",togglePartnerStatus)
+partnerRouter.get("/:partnerId/reset-revenue",resetRevenue)
 
 export default partnerRouter
