@@ -31,6 +31,14 @@ function Admin() {
     }
   }
 
+  const paytoPartner = async (partner:IUser)=>{
+    try {
+      toast("click to pay")
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -71,7 +79,7 @@ function Admin() {
           onTogglePartner={handleToggleStatus}
           />
         ) : (
-          <PaytoPartner/>
+          <PaytoPartner partners={allPublicPartners} onPaymentSuccess={paytoPartner}/>
         )
       }
     </div>
