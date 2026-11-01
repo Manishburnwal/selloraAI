@@ -192,3 +192,33 @@ export const payPartner = async (req:Request, res:Response)=>{
         })
     }
 }
+
+
+export const getAllPartnerPayments = async (req:Request, res:Response)=>{
+    try {
+        const cachedData = await redis.get("partnerPayments:all")
+        if(cachedData){
+            return res.status(200).json({
+                success:true,
+                source:"redis",
+                partnerPayments:JSON.parse(cachedData)
+            })
+        }
+
+
+        const partnerPayments = await PartnerPayment.find().sort({createdAt:-1})
+
+        await redis.set("partnerPayments:all",JSON.stringify(partnerPayments),"EX",600)
+        return res.status(200).json({
+            success:true,
+            source:"database",
+            partnerPayments
+        })
+    } catch (error) {
+        console.log("Get all partner payments error:",error)
+        return res.status(500).json({
+            success:false,
+            message:"Failed to fetch partner payments"
+        })
+    }
+}

@@ -211,7 +211,9 @@ function PaytoPartner({partners, onPaymentSuccess}:PaytoPartnerProps) {
                                     Cancel
                                 </Button>
 
-                                <Button onClick={() => onPaymentSuccess(selectedPartner!)} className="w-full sm:w-auto bg-green-600 hover:bg-green-700">
+                                <Button onClick={() => {
+                                    onPaymentSuccess(selectedPartner!); 
+                                    setSelectedPartner(null);}} className="w-full sm:w-auto bg-green-600 hover:bg-green-700">
                                     Complete Payment
                                 </Button>
                             </DialogFooter>
