@@ -1,11 +1,24 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "../ui/button"
-import { History, Users, Wallet } from "lucide-react"
+import { History, Loader2, Users, Wallet } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
 import type { IUser } from "@/App"
 import { Avatar, AvatarFallback } from "../ui/avatar"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog"
 import { Badge } from "../ui/badge"
+import api from "@/utils/axios"
+import { toast } from "sonner"
+
+interface partnerPayment {
+    _id: string;
+    partnerId: string;
+    partnerName: string;
+    partnerEmail: string;
+    amount: number;
+    status: "success";
+    createdAt: string;
+    updatedAt?: string;
+}
 
 interface PaytoPartnerProps{
     partners:IUser[],
@@ -17,9 +30,36 @@ function PaytoPartner({partners, onPaymentSuccess}:PaytoPartnerProps) {
     const [activeTab, setActiveTab] = useState<"partner" | "history">("partner")
     const [selectedPartner, setSelectedPartner] = useState<IUser | null>(null)
 
+    const[payments,setPayments] = useState<partnerPayment[]>([])
+
+    const [loading,setLoading]=useState(false)
+
     const handlePay=(partner:IUser)=>{
         setSelectedPartner(partner)
     }
+
+    const handleHistory = async ()=>{
+        try {
+            setLoading(true)
+            const response = await api.get("/api/order/all-payments")
+            if(response.data.success){
+                setPayments(response.data.partnerPayments)
+            }
+            setLoading(false)
+        } catch (error) {
+            console.log(error)
+            toast.error("Failed to get all payments")
+            setLoading(false)
+        }
+    }
+
+    useEffect(()=>{
+        if(activeTab === "history"){
+            handleHistory()
+        }
+    },[activeTab])
+
+
 
     const eligiblePartners = partners.filter((partner)=>partner.totalRevenue >= 10000)
     
@@ -143,8 +183,102 @@ function PaytoPartner({partners, onPaymentSuccess}:PaytoPartnerProps) {
 
 
         {activeTab==="history" && (
-            <Card>
-                History
+            <Card className="shadow-sm overflow-hidden">
+                <CardHeader className="px-4 sm:px-6">
+                    <div className="flex items-center gap-3">
+                        <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-lg bg-green-50 text-green-600 flex items-center justify-center">
+                            <History className="h-4 w-4 sm:h-5 sm:w-5"/>
+                        </div>
+                        <div>
+                            <CardTitle className="text-base">
+                                Payment History
+                            </CardTitle>
+                            <p className="text-xs sm:text-sm text-slate-500 mt-1">View all completed partner payouts.</p>
+                        </div>
+                    </div>
+                </CardHeader>
+
+                <CardContent className="p-0">
+                    {loading && (
+                        <div className="flex items-center justify-center py-14">
+                            <Loader2 className="h-6 w-6 animate-spin text-indigo-600"/>
+                        </div>
+                    )}
+
+
+{payments.length===0 ? (
+                        <div className="text-center">
+                        <Wallet className="h-9 w-9 mx-auto text-slate-300" />
+                        <p className="font-medium text-slate-700">No payments history</p>
+                        <p className="text-sm text-slate-400 mt-1">Completed partner payments will appear here.</p>
+                      </div>
+                    ):(
+                        <div className="w-full overflow-x-auto">
+                            <table className="w-full min-w-[650px]">
+                                <thead>
+                                    <tr className="border-y bg-slate-50 text-slate-500">
+                                    <th className="text-left font-medium px-4 sm:px-5 py-3">
+                                    Partner
+                                    </th>
+
+                                    <th className="text-left font-medium px-4 sm:px-5 py-3">
+                                    Amount
+                                    </th>
+
+                                    <th className="text-left font-medium px-4 sm:px-5 py-3">
+                                    Date
+                                    </th>
+
+                                    <th className="text-right font-medium px-4 sm:px-5 py-3">
+                                    Status
+                                    </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody className="divide-y">
+                                    {payments.map((payment,index)=>(
+                                        <tr key={index} className="hover:bg-slate-50/60 transition-colors">
+                                            <td className="px-5 py-4">
+                                                    <div className="flex items-center gap-3">
+                                                        <Avatar>
+                                                            <AvatarFallback>
+                                                                {payment.partnerName.charAt(0).toUpperCase()}
+                                                            </AvatarFallback>
+                                                        </Avatar>
+
+                                                        <div>
+                                                            <p className="font-medium text-slate-900">{payment.partnerName}</p>
+                                                            <p className="text-xs text-slate-400">{payment.partnerEmail}</p>
+                                                        </div>
+
+                                                    </div>
+                                                </td>
+
+                                                <td className="px-5 py-4">
+                                                    ₹
+                                                    {payment.amount.toFixed(2)}
+                                                </td>
+
+                                                <td className="px-5 py-4 font-medium">
+                                                {new Date(payment.createdAt).toLocaleDateString("en-IN", {
+                                                day: "2-digit",
+                                                month: "short",
+                                                year: "numeric",
+                                                })}
+                                                </td>
+
+                                                <td className="px-4 sm:px-5 py-4 text-right">
+                                                    <Badge className="bg-green-50 text-green-700 hover:bg-green-50">{payment.status}</Badge>
+                                                </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+
+                            </table>
+                        </div>
+                    )}
+
+                </CardContent>
             </Card>
         )}
 
