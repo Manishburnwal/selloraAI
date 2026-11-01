@@ -32,7 +32,7 @@ function Partner() {
     }
 
     if(partner.isActive===false){
-        <DeactivateNote/>
+      return <DeactivateNote/>
     }
 
 
