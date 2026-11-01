@@ -33,9 +33,28 @@ function Admin() {
 
   const paytoPartner = async (partner:IUser)=>{
     try {
-      const response = await
+      if(!partner._id){
+        toast.error("Partner ID not found")
+        return;
+      }
+      const response = await api.post("/api/order/pay",{
+        partnerId:partner._id,
+        partnerName:partner.name,
+        partnerEmail:partner.email,
+        amount:partner.totalRevenue
+      })
+
+      if(response.data.success){
+        const resetResponse = await api.get(`/api/auth/partner/${partner._id}/reset-revenue`)
+        if(resetResponse.data.success){
+          const updatedPartner = resetResponse.data.partner
+          dispatch(setAllPublicPartners(allPublicPartners.map((item)=>item._id === updatedPartner._id ? {...item, totalRevenue:updatedPartner.totalRevenue} : item)))
+        }
+      }
+      toast.success("Partner payment completed successfully.")
     } catch (error) {
       console.log(error)
+      toast.error("Failed to process partner payment")
     }
   }
 
