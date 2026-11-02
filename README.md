@@ -16,26 +16,11 @@
 </p>
 
 <p align="center">
-  <a href="#-live-demo">Live Demo</a> •
   <a href="#-architecture">Architecture</a> •
   <a href="#-what-this-project-demonstrates">Skills Shown</a> •
   <a href="#-run-it-in-2-minutes">Quick Start</a> •
   <a href="#-about-the-author">Author</a>
 </p>
-
----
-
-## 🔗 Live Demo
-
-| | |
-|---|---|
-| 🌐 **Live app** | `https://your-demo-link-here` |
-| 🎥 **Video walkthrough (2 min)** | `https://your-video-link-here` |
-| 🔑 **Demo login** | `demo@sellora.ai` / `demo1234` *(replace with real test credentials)* |
-
-> 📸 **Add 2–3 screenshots or a GIF here.** Recruiters spend about 30 seconds on a repo, and visuals are the fastest way to prove it works.
->
-> `![Home](./docs/home.png)` `![Product page](./docs/product.png)` `![Checkout](./docs/checkout.png)`
 
 ---
 
