@@ -4,6 +4,7 @@ import Order from "../models/order.model.js";
 import { createHmac } from "crypto";
 import redis from "../../../../shared/redis/redis.js"
 import PartnerPayment from "../models/partnerPayment.model.js";
+import { emailQueue } from "../config/queue.js";
 
 export const createOrder = async (req:Request, res:Response)=>{
     try {
@@ -103,6 +104,17 @@ export const verifyPayment = async (req:Request, res:Response)=>{
 
         await order.save()
 
+        // email
+        await emailQueue.add("payment-success",{
+            customerName:order.customerName,
+            customerEmail:order.customerEmail,
+            partnerEmail:order.partnerEmail,
+            productTitle:order.productTitle,
+            amount:order.productPrice
+        })
+
+
+
         return res.status(200).json({
             success:true,
             message:"Payment verified successfully",
@@ -177,6 +189,17 @@ export const payPartner = async (req:Request, res:Response)=>{
             partnerEmail,
             amount,
             status:"success"
+        })
+
+        await redis.del("partnerPayments:all")
+
+        // email
+        await emailQueue.add("partner-payment",{
+            partnerName,
+            partnerEmail,
+            amount,
+            paymentId:payment._id.toString(),
+            adminEmail:process.env.USER_EMAIL
         })
 
         return res.status(200).json({
