@@ -108,9 +108,9 @@ function AIAnalytics({analyticsData}:AIAnalyticsProps) {
             }
 
             setLoading(false)
-        } catch (error) {
+        } catch (error:any) {
             console.log(error)
-            toast.error("Failed to generate AI analytics")
+            toast.error(error.response.data.message || "Failed to generate AI analytics")
             setLoading(false)
         }
     }

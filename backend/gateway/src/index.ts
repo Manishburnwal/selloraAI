@@ -7,6 +7,7 @@ import cors from "cors"
 import isAuth from "./middleware/isAuth.js"
 import { getCurrentUser } from "./controller/user.controller.js"
 import { proxyWithHeader } from "./config/proxtWithHeaders.js"
+import { rateLimiting } from "./middleware/rateLimiting.js"
 
 dotenv.config()
 
@@ -22,6 +23,8 @@ app.use(express.json())
 app.use(cookieParser())
 
 app.use(morgan("dev"))
+
+app.use(rateLimiting);
 
 const PORT = process.env.PORT
 
