@@ -7,7 +7,7 @@ const emailWorker = new Worker("email-queue",
         if(job.name === "payment-success"){
             const {customerName, customerEmail, partnerEmail, productTitle, amount} = job.data
 
-            const customerMail = await transporter.sendMail({
+            await transporter.sendMail({
                 from:{ name:"SelloraAI", address:process.env.USER_EMAIL! },
                 to:customerEmail,
                 subject:`Payment Successful - ${productTitle}`,
@@ -20,10 +20,8 @@ const emailWorker = new Worker("email-queue",
                 <p>Thank you for purchasing from SelloraAI!</p>
                 `
             })
-            console.log("Customer mail response:",customerMail.messageId)
 
-
-            const partnerMail = await transporter.sendMail({
+            await transporter.sendMail({
                 from:{ name:"SelloraAI", address:process.env.USER_EMAIL! },
                 to:partnerEmail,
                 subject:`New Sale: ₹${Number(amount).toFixed(2)} - ${productTitle}`,
@@ -39,11 +37,28 @@ const emailWorker = new Worker("email-queue",
                 <p>Thank you for being a partner with SelloraAI!</p>
                 `
             })
-            console.log("Partner mail response:",partnerMail.messageId)
         }
 
         if(job.name === "partner-payment"){
-
+            const { partnerName, partnerEmail, amount, paymentId, adminEmail } = job.data
+            await transporter.sendMail({
+                from:{ name:"SelloraAI", address:process.env.USER_EMAIL! },
+                to:partnerEmail,
+                subject:`Payout Sent: ₹${amount.toFixed(2)} - SelloraAI`,
+                html: `
+                <h2>Payment Sent 🎉</h2>
+                <p>Hello ${partnerName},</p>
+                <p>Your partner payout has been successfully processed.</p>
+                <p><strong>Amount:</strong> ₹${Number(amount).toFixed(2)}</p>
+                <p><strong>Payment ID:</strong> ${paymentId}</p>
+                <h3>Payment Details</h3>
+                <p>Your payment has been sent to your registered bank account or UPI. It should arrive within 24 hours.</p>
+                <p>If you do not receive the payment within 24 hours, please contact our admin team at:</p>
+                <p><strong>Email:</strong></p>
+                <a href="mailto:${adminEmail}">${adminEmail}</a>
+                <p>Thank you for being a partner with SelloraAI!</p>
+                `
+            })
         }
     },
     {

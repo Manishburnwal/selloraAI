@@ -3,6 +3,8 @@ import dotenv from "dotenv"
 import { connectDb } from "./config/db.js"
 import orderRouter from "./routes/order.route.js"
 
+import "./config/worker.js"
+
 dotenv.config()
 
 const app = express()
