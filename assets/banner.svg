@@ -1,0 +1,76 @@
+<svg width="1000" height="340" viewBox="0 0 1000 340" xmlns="http://www.w3.org/2000/svg" font-family="'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace">
+  <defs>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#1f2a37" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="title" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#58a6ff"/>
+      <stop offset="0.5" stop-color="#bc8cff"/>
+      <stop offset="1" stop-color="#3fb950"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0.15" cy="0.1" r="0.6">
+      <stop offset="0" stop-color="#58a6ff" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#58a6ff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0.9" cy="0.95" r="0.6">
+      <stop offset="0" stop-color="#bc8cff" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#bc8cff" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="c1"><rect x="64" y="176" height="26" width="0"><animate attributeName="width" from="0" to="330" dur="1.4s" begin="0.8s" fill="freeze"/></rect></clipPath>
+    <clipPath id="c2"><rect x="64" y="212" height="26" width="0"><animate attributeName="width" from="0" to="620" dur="1.8s" begin="2.4s" fill="freeze"/></rect></clipPath>
+    <clipPath id="c3"><rect x="64" y="248" height="26" width="0"><animate attributeName="width" from="0" to="620" dur="1.6s" begin="4.4s" fill="freeze"/></rect></clipPath>
+  </defs>
+
+  <rect width="1000" height="340" fill="#0d1117"/>
+  <rect width="1000" height="340" fill="url(#grid)"/>
+  <rect width="1000" height="340" fill="url(#glowA)"/>
+  <rect width="1000" height="340" fill="url(#glowB)"/>
+
+  <!-- floating code glyphs -->
+  <g font-size="22" fill="#58a6ff" opacity="0.25">
+    <text x="820" y="300">&lt;/&gt;
+      <animate attributeName="y" values="300;60;300" dur="9s" repeatCount="indefinite"/>
+    </text>
+    <text x="900" y="280" fill="#bc8cff">{ }
+      <animate attributeName="y" values="280;40;280" dur="12s" repeatCount="indefinite"/>
+    </text>
+    <text x="740" y="320" fill="#3fb950">01
+      <animate attributeName="y" values="320;80;320" dur="7s" repeatCount="indefinite"/>
+    </text>
+    <text x="940" y="320" fill="#3fb950">=&gt;
+      <animate attributeName="y" values="320;100;320" dur="10s" repeatCount="indefinite"/>
+    </text>
+  </g>
+
+  <!-- title -->
+  <text x="64" y="84" font-size="56" font-weight="700" fill="url(#title)" letter-spacing="4" opacity="0">
+    SELLORAAI
+    <animate attributeName="opacity" from="0" to="1" dur="0.9s" begin="0.1s" fill="freeze"/>
+  </text>
+  <text x="64" y="118" font-size="16" fill="#8b949e" opacity="0">
+    // scalable digital product marketplace · microservices
+    <animate attributeName="opacity" from="0" to="1" dur="0.9s" begin="0.5s" fill="freeze"/>
+  </text>
+
+  <!-- terminal window -->
+  <rect x="40" y="140" width="920" height="170" rx="10" fill="#010409" stroke="#30363d"/>
+  <path d="M40 150a10 10 0 0 1 10-10h900a10 10 0 0 1 10 10v14H40z" fill="#161b22"/>
+  <circle cx="62" cy="152" r="5" fill="#ff5f56"/>
+  <circle cx="82" cy="152" r="5" fill="#ffbd2e"/>
+  <circle cx="102" cy="152" r="5" fill="#27c93f"/>
+  <text x="500" y="156" font-size="12" fill="#8b949e" text-anchor="middle">~/SELLORAAI/backend</text>
+
+  <g font-size="18">
+    <g clip-path="url(#c1)"><text x="64" y="196"><tspan fill="#3fb950">$</tspan><tspan fill="#e6edf3"> docker compose up --build</tspan></text></g>
+    <g clip-path="url(#c2)"><text x="64" y="232"><tspan fill="#58a6ff">✔</tspan><tspan fill="#8b949e"> gateway · auth · product · order · ai</tspan><tspan fill="#3fb950"> running</tspan></text></g>
+    <g clip-path="url(#c3)"><text x="64" y="268"><tspan fill="#bc8cff">⚡</tspan><tspan fill="#8b949e"> redis cache </tspan><tspan fill="#3fb950">connected</tspan><tspan fill="#8b949e"> · mongodb </tspan><tspan fill="#3fb950">ready</tspan></text></g>
+    <rect x="64" y="284" width="11" height="20" fill="#e6edf3">
+      <animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.5;1" dur="1s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+
+  <!-- scanning line -->
+  <rect x="0" y="0" width="1000" height="2" fill="#58a6ff" opacity="0.18">
+    <animate attributeName="y" values="0;340;0" dur="8s" repeatCount="indefinite"/>
+  </rect>
+</svg>

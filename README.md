@@ -1,18 +1,21 @@
-<h1 align="center">🛒 SELLORAAI</h1>
-
 <p align="center">
-  <b>A scalable digital product marketplace built on a microservices architecture.</b><br/>
-  Buyers discover, purchase and download digital products. Sellers manage listings and sales.
+  <img src="./assets/banner.svg" alt="SELLORAAI terminal banner" width="100%" />
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
-  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" />
-  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" />
-  <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" />
-  <img src="https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white" />
-  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" />
-  <img src="https://img.shields.io/badge/AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white" />
+  <a href="https://git.io/typing-svg">
+    <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=20&duration=2800&pause=900&color=58A6FF&center=true&vCenter=true&width=720&lines=Buyers+discover%2C+purchase+and+download+digital+products;Sellers+manage+listings+and+sales;Microservices+%7C+API+Gateway+%7C+Redis+%7C+Docker" alt="Typing animation" />
+  </a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/React-0d1117?style=for-the-badge&logo=react&logoColor=61DAFB" />
+  <img src="https://img.shields.io/badge/TypeScript-0d1117?style=for-the-badge&logo=typescript&logoColor=3178C6" />
+  <img src="https://img.shields.io/badge/Node.js-0d1117?style=for-the-badge&logo=nodedotjs&logoColor=339933" />
+  <img src="https://img.shields.io/badge/MongoDB-0d1117?style=for-the-badge&logo=mongodb&logoColor=47A248" />
+  <img src="https://img.shields.io/badge/Redis-0d1117?style=for-the-badge&logo=redis&logoColor=DC382D" />
+  <img src="https://img.shields.io/badge/Docker-0d1117?style=for-the-badge&logo=docker&logoColor=2496ED" />
+  <img src="https://img.shields.io/badge/AWS-0d1117?style=for-the-badge&logo=amazonaws&logoColor=FF9900" />
 </p>
 
 <p align="center">
@@ -22,15 +25,21 @@
   <a href="#-about-the-author">Author</a>
 </p>
 
----
+<img src="./assets/divider.svg" width="100%" />
 
 ## ✨ The Pitch
 
 Most portfolio projects are single-server CRUD apps. **SELLORAAI is built the way production systems are:** independent services behind an API gateway, Redis caching for performance, everything containerised with Docker, and cloud-ready for AWS.
 
-**In one line:** a full-stack marketplace where a user can sign up, browse products, pay, and download what they bought, with each backend concern running as its own service.
+```ts
+const sellorai = {
+  type: "full-stack marketplace",
+  flow: ["sign up", "browse", "pay", "download"],
+  backend: "each concern runs as its own service",
+};
+```
 
----
+<img src="./assets/divider.svg" width="100%" />
 
 ## 🎯 What This Project Demonstrates
 
@@ -45,7 +54,7 @@ Most portfolio projects are single-server CRUD apps. **SELLORAAI is built the wa
 | **Modern UI engineering** | React + Shadcn UI component system |
 | **DevOps basics** | Docker and Docker Compose for one-command startup, AWS deployment ready |
 
----
+<img src="./assets/divider.svg" width="100%" />
 
 ## 🚀 Features
 
@@ -60,7 +69,7 @@ Most portfolio projects are single-server CRUD apps. **SELLORAAI is built the wa
 | ⚡ | **Redis caching** | Faster responses on frequently read data |
 | 🤖 | **AI service** | Dedicated, isolated service for AI features |
 
----
+<img src="./assets/divider.svg" width="100%" />
 
 ## 🏛️ Architecture
 
@@ -111,7 +120,7 @@ flowchart TB
 - **Why Redis?** Reduces repeated database reads on hot paths and speeds up responses.
 - **Why Docker Compose?** The whole system starts with one command, so anyone can run it locally.
 
----
+<img src="./assets/divider.svg" width="100%" />
 
 ## 🧰 Tech Stack
 
@@ -125,7 +134,7 @@ flowchart TB
 | **DevOps** | Docker, Docker Compose |
 | **Cloud** | AWS |
 
----
+<img src="./assets/divider.svg" width="100%" />
 
 ## 📂 Project Structure
 
@@ -143,10 +152,11 @@ SELLORAAI/
 │   ├── docker-compose.yml
 │   └── package.json
 ├── frontend/                 # React + TypeScript client
+├── assets/                   # Animated README banner and divider
 └── README.md
 ```
 
----
+<img src="./assets/divider.svg" width="100%" />
 
 ## ⚡ Run It in 2 Minutes
 
@@ -199,7 +209,7 @@ npm run dev        # start each service via its dev script
 Requires local MongoDB and Redis instances.
 </details>
 
----
+<img src="./assets/divider.svg" width="100%" />
 
 ## 🗺️ Roadmap
 
@@ -214,7 +224,7 @@ Requires local MongoDB and Redis instances.
 - [ ] AI-powered product recommendations and search
 - [ ] Full AWS deployment (ECS / EC2) with IaC
 
----
+<img src="./assets/divider.svg" width="100%" />
 
 ## 📚 What I Learned
 
@@ -223,7 +233,7 @@ Requires local MongoDB and Redis instances.
 - Securing a multi-service system with centralised authentication.
 - Packaging and running multi-container apps with Docker Compose.
 
----
+<img src="./assets/divider.svg" width="100%" />
 
 ## 👨‍💻 About the Author
 
@@ -238,7 +248,9 @@ I build scalable web applications and enjoy designing backend systems that are m
 
 > 🟢 **Open to full-stack / backend roles.** Feel free to reach out!
 
----
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:58a6ff,50:bc8cff,100:3fb950&height=120&section=footer" width="100%" />
+</p>
 
 <p align="center">
   ⭐ If you found this project interesting, please consider starring the repo!
