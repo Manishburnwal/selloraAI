@@ -1,76 +1,113 @@
-<svg width="1000" height="340" viewBox="0 0 1000 340" xmlns="http://www.w3.org/2000/svg" font-family="'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace">
+<svg width="1000" height="380" viewBox="0 0 1000 380" xmlns="http://www.w3.org/2000/svg" font-family="'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace">
   <defs>
-    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
-      <path d="M32 0H0V32" fill="none" stroke="#1f2a37" stroke-width="1"/>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M30 0H0V30" fill="none" stroke="#2a1710" stroke-width="1"/>
+    </pattern>
+    <pattern id="scan" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="1" fill="#000" opacity="0.35"/>
     </pattern>
     <linearGradient id="title" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#58a6ff"/>
-      <stop offset="0.5" stop-color="#bc8cff"/>
-      <stop offset="1" stop-color="#3fb950"/>
+      <stop offset="0" stop-color="#ffb000"/>
+      <stop offset="0.5" stop-color="#ff5a1f"/>
+      <stop offset="1" stop-color="#ff2d2d"/>
     </linearGradient>
-    <radialGradient id="glowA" cx="0.15" cy="0.1" r="0.6">
-      <stop offset="0" stop-color="#58a6ff" stop-opacity="0.28"/>
-      <stop offset="1" stop-color="#58a6ff" stop-opacity="0"/>
+    <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffb000"/>
+      <stop offset="1" stop-color="#ff2d2d"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0.1" cy="0.05" r="0.65">
+      <stop offset="0" stop-color="#ff5a1f" stop-opacity="0.38"/>
+      <stop offset="1" stop-color="#ff5a1f" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="glowB" cx="0.9" cy="0.95" r="0.6">
-      <stop offset="0" stop-color="#bc8cff" stop-opacity="0.25"/>
-      <stop offset="1" stop-color="#bc8cff" stop-opacity="0"/>
+    <radialGradient id="glowB" cx="0.95" cy="1" r="0.6">
+      <stop offset="0" stop-color="#ff2d2d" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#ff2d2d" stop-opacity="0"/>
     </radialGradient>
-    <clipPath id="c1"><rect x="64" y="176" height="26" width="0"><animate attributeName="width" from="0" to="330" dur="1.4s" begin="0.8s" fill="freeze"/></rect></clipPath>
-    <clipPath id="c2"><rect x="64" y="212" height="26" width="0"><animate attributeName="width" from="0" to="620" dur="1.8s" begin="2.4s" fill="freeze"/></rect></clipPath>
-    <clipPath id="c3"><rect x="64" y="248" height="26" width="0"><animate attributeName="width" from="0" to="620" dur="1.6s" begin="4.4s" fill="freeze"/></rect></clipPath>
+    <filter id="glow" x="-20%" y="-50%" width="140%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2"/>
+    </filter>
+    <clipPath id="c1"><rect x="64" y="176" height="26" width="0"><animate attributeName="width" from="0" to="330" dur="1.3s" begin="0.8s" fill="freeze"/></rect></clipPath>
+    <clipPath id="c2"><rect x="64" y="206" height="26" width="0"><animate attributeName="width" from="0" to="640" dur="1.6s" begin="2.3s" fill="freeze"/></rect></clipPath>
+    <clipPath id="c3"><rect x="64" y="236" height="26" width="0"><animate attributeName="width" from="0" to="640" dur="1.5s" begin="4.0s" fill="freeze"/></rect></clipPath>
+    <clipPath id="c4"><rect x="64" y="266" height="26" width="0"><animate attributeName="width" from="0" to="640" dur="1.6s" begin="5.7s" fill="freeze"/></rect></clipPath>
   </defs>
 
-  <rect width="1000" height="340" fill="#0d1117"/>
-  <rect width="1000" height="340" fill="url(#grid)"/>
-  <rect width="1000" height="340" fill="url(#glowA)"/>
-  <rect width="1000" height="340" fill="url(#glowB)"/>
+  <!-- background -->
+  <rect width="1000" height="380" fill="#0a0604"/>
+  <rect width="1000" height="380" fill="url(#grid)"/>
+  <rect width="1000" height="380" fill="url(#glowA)"/>
+  <rect width="1000" height="380" fill="url(#glowB)"/>
 
-  <!-- floating code glyphs -->
-  <g font-size="22" fill="#58a6ff" opacity="0.25">
-    <text x="820" y="300">&lt;/&gt;
-      <animate attributeName="y" values="300;60;300" dur="9s" repeatCount="indefinite"/>
-    </text>
-    <text x="900" y="280" fill="#bc8cff">{ }
-      <animate attributeName="y" values="280;40;280" dur="12s" repeatCount="indefinite"/>
-    </text>
-    <text x="740" y="320" fill="#3fb950">01
-      <animate attributeName="y" values="320;80;320" dur="7s" repeatCount="indefinite"/>
-    </text>
-    <text x="940" y="320" fill="#3fb950">=&gt;
-      <animate attributeName="y" values="320;100;320" dur="10s" repeatCount="indefinite"/>
-    </text>
+  <!-- rising embers -->
+  <g fill="#ff8a00" filter="url(#soft)">
+    <circle cx="760" cy="380" r="3"><animate attributeName="cy" values="380;20" dur="6s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.9;0" dur="6s" repeatCount="indefinite"/></circle>
+    <circle cx="830" cy="380" r="2.5" fill="#ff5a1f"><animate attributeName="cy" values="380;40" dur="8s" begin="1s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.9;0" dur="8s" begin="1s" repeatCount="indefinite"/></circle>
+    <circle cx="900" cy="380" r="3.5"><animate attributeName="cy" values="380;10" dur="7s" begin="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.9;0" dur="7s" begin="2s" repeatCount="indefinite"/></circle>
+    <circle cx="940" cy="380" r="2" fill="#ffb000"><animate attributeName="cy" values="380;60" dur="5s" begin="0.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.9;0" dur="5s" begin="0.5s" repeatCount="indefinite"/></circle>
+    <circle cx="690" cy="380" r="2" fill="#ff2d2d"><animate attributeName="cy" values="380;70" dur="9s" begin="3s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.8;0" dur="9s" begin="3s" repeatCount="indefinite"/></circle>
+    <circle cx="120" cy="380" r="2" fill="#ff5a1f"><animate attributeName="cy" values="380;120" dur="10s" begin="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.6;0" dur="10s" begin="2s" repeatCount="indefinite"/></circle>
   </g>
 
-  <!-- title -->
-  <text x="64" y="84" font-size="56" font-weight="700" fill="url(#title)" letter-spacing="4" opacity="0">
-    SELLORAAI
-    <animate attributeName="opacity" from="0" to="1" dur="0.9s" begin="0.1s" fill="freeze"/>
-  </text>
-  <text x="64" y="118" font-size="16" fill="#8b949e" opacity="0">
-    // scalable digital product marketplace · microservices
-    <animate attributeName="opacity" from="0" to="1" dur="0.9s" begin="0.5s" fill="freeze"/>
+  <!-- floating code glyphs -->
+  <g font-size="22" fill="#ff5a1f" opacity="0.22">
+    <text x="800" y="340">&lt;/&gt;<animate attributeName="y" values="340;70;340" dur="11s" repeatCount="indefinite"/></text>
+    <text x="900" y="320" fill="#ffb000">{ }<animate attributeName="y" values="320;50;320" dur="13s" repeatCount="indefinite"/></text>
+    <text x="720" y="350" fill="#ff2d2d">0x1F<animate attributeName="y" values="350;90;350" dur="9s" repeatCount="indefinite"/></text>
+  </g>
+
+  <!-- title with glow + flicker -->
+  <g filter="url(#glow)">
+    <text x="64" y="84" font-size="58" font-weight="700" fill="url(#title)" letter-spacing="6">
+      SELLORAAI
+      <animate attributeName="opacity" values="0;1;0.85;1;0.92;1" keyTimes="0;0.1;0.14;0.2;0.25;1" dur="1.4s" begin="0s" fill="freeze"/>
+    </text>
+  </g>
+  <text x="64" y="116" font-size="16" fill="#b08968" opacity="0">
+    // scalable digital product marketplace · microservices · redis · docker
+    <animate attributeName="opacity" from="0" to="1" dur="0.8s" begin="0.6s" fill="freeze"/>
   </text>
 
   <!-- terminal window -->
-  <rect x="40" y="140" width="920" height="170" rx="10" fill="#010409" stroke="#30363d"/>
-  <path d="M40 150a10 10 0 0 1 10-10h900a10 10 0 0 1 10 10v14H40z" fill="#161b22"/>
-  <circle cx="62" cy="152" r="5" fill="#ff5f56"/>
-  <circle cx="82" cy="152" r="5" fill="#ffbd2e"/>
-  <circle cx="102" cy="152" r="5" fill="#27c93f"/>
-  <text x="500" y="156" font-size="12" fill="#8b949e" text-anchor="middle">~/SELLORAAI/backend</text>
+  <rect x="40" y="136" width="920" height="226" rx="10" fill="#050302" stroke="#ff5a1f" stroke-opacity="0.55">
+    <animate attributeName="stroke-opacity" values="0.3;0.8;0.3" dur="3s" repeatCount="indefinite"/>
+  </rect>
+  <path d="M40 146a10 10 0 0 1 10-10h900a10 10 0 0 1 10 10v16H40z" fill="#1a0d08"/>
+  <circle cx="62" cy="150" r="5" fill="#ff5f56"/>
+  <circle cx="82" cy="150" r="5" fill="#ffbd2e"/>
+  <circle cx="102" cy="150" r="5" fill="#ff8a00"/>
+  <text x="500" y="154" font-size="12" fill="#b08968" text-anchor="middle">sellorai@prod: ~/backend</text>
 
-  <g font-size="18">
-    <g clip-path="url(#c1)"><text x="64" y="196"><tspan fill="#3fb950">$</tspan><tspan fill="#e6edf3"> docker compose up --build</tspan></text></g>
-    <g clip-path="url(#c2)"><text x="64" y="232"><tspan fill="#58a6ff">✔</tspan><tspan fill="#8b949e"> gateway · auth · product · order · ai</tspan><tspan fill="#3fb950"> running</tspan></text></g>
-    <g clip-path="url(#c3)"><text x="64" y="268"><tspan fill="#bc8cff">⚡</tspan><tspan fill="#8b949e"> redis cache </tspan><tspan fill="#3fb950">connected</tspan><tspan fill="#8b949e"> · mongodb </tspan><tspan fill="#3fb950">ready</tspan></text></g>
-    <rect x="64" y="284" width="11" height="20" fill="#e6edf3">
-      <animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.5;1" dur="1s" repeatCount="indefinite"/>
-    </rect>
+  <g font-size="17">
+    <g clip-path="url(#c1)"><text x="64" y="196"><tspan fill="#ff5a1f">$</tspan><tspan fill="#ffe8d6"> docker compose up --build</tspan></text></g>
+    <g clip-path="url(#c2)"><text x="64" y="226"><tspan fill="#ffb000">[ OK ]</tspan><tspan fill="#c9a88f"> gateway · auth · product · order · ai</tspan></text></g>
+    <g clip-path="url(#c3)"><text x="64" y="256"><tspan fill="#ffb000">[ OK ]</tspan><tspan fill="#c9a88f"> redis cache connected · mongodb ready</tspan></text></g>
+    <g clip-path="url(#c4)"><text x="64" y="286"><tspan fill="#ff2d2d">[ &gt;&gt; ]</tspan><tspan fill="#ffe8d6"> sellorai is live → http://localhost:5173</tspan></text></g>
   </g>
 
-  <!-- scanning line -->
-  <rect x="0" y="0" width="1000" height="2" fill="#58a6ff" opacity="0.18">
-    <animate attributeName="y" values="0;340;0" dur="8s" repeatCount="indefinite"/>
+  <!-- progress bar -->
+  <rect x="64" y="304" width="560" height="8" rx="4" fill="#1a0d08"/>
+  <rect x="64" y="304" width="0" height="8" rx="4" fill="url(#bar)">
+    <animate attributeName="width" from="0" to="560" dur="6.5s" begin="0.8s" fill="freeze"/>
+  </rect>
+  <text x="640" y="312" font-size="12" fill="#ff8a00" opacity="0">100%
+    <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="7.3s" fill="freeze"/>
+  </text>
+
+  <!-- prompt + cursor -->
+  <text x="64" y="342" font-size="17" fill="#ff5a1f" opacity="0">$
+    <animate attributeName="opacity" from="0" to="1" dur="0.1s" begin="7.4s" fill="freeze"/>
+  </text>
+  <rect x="82" y="328" width="11" height="18" fill="#ff5a1f" opacity="0">
+    <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.5;0.5;0.75;0.75;1" dur="1s" begin="7.4s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- CRT scanlines + sweeping line -->
+  <rect width="1000" height="380" fill="url(#scan)" opacity="0.5"/>
+  <rect x="0" y="0" width="1000" height="3" fill="#ff5a1f" opacity="0.16">
+    <animate attributeName="y" values="0;380;0" dur="7s" repeatCount="indefinite"/>
   </rect>
 </svg>

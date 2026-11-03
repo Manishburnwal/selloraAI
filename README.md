@@ -4,25 +4,33 @@
 
 <p align="center">
   <a href="https://git.io/typing-svg">
-    <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=20&duration=2800&pause=900&color=58A6FF&center=true&vCenter=true&width=720&lines=Buyers+discover%2C+purchase+and+download+digital+products;Sellers+manage+listings+and+sales;Microservices+%7C+API+Gateway+%7C+Redis+%7C+Docker" alt="Typing animation" />
+    <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=20&duration=2800&pause=900&color=FF5A1F&center=true&vCenter=true&width=760&lines=%3E+Buyers+discover%2C+purchase+and+download+digital+products;%3E+Sellers+manage+listings+and+sales;%3E+Microservices+%7C+API+Gateway+%7C+Redis+%7C+Docker" alt="Typing animation" />
   </a>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/React-0d1117?style=for-the-badge&logo=react&logoColor=61DAFB" />
-  <img src="https://img.shields.io/badge/TypeScript-0d1117?style=for-the-badge&logo=typescript&logoColor=3178C6" />
-  <img src="https://img.shields.io/badge/Node.js-0d1117?style=for-the-badge&logo=nodedotjs&logoColor=339933" />
-  <img src="https://img.shields.io/badge/MongoDB-0d1117?style=for-the-badge&logo=mongodb&logoColor=47A248" />
-  <img src="https://img.shields.io/badge/Redis-0d1117?style=for-the-badge&logo=redis&logoColor=DC382D" />
-  <img src="https://img.shields.io/badge/Docker-0d1117?style=for-the-badge&logo=docker&logoColor=2496ED" />
-  <img src="https://img.shields.io/badge/AWS-0d1117?style=for-the-badge&logo=amazonaws&logoColor=FF9900" />
+  <img src="https://img.shields.io/badge/React-0a0604?style=for-the-badge&logo=react&logoColor=FF5A1F&labelColor=0a0604&color=FF5A1F" />
+  <img src="https://img.shields.io/badge/TypeScript-0a0604?style=for-the-badge&logo=typescript&logoColor=FF5A1F&labelColor=0a0604&color=FF5A1F" />
+  <img src="https://img.shields.io/badge/Node.js-0a0604?style=for-the-badge&logo=nodedotjs&logoColor=FF5A1F&labelColor=0a0604&color=FF5A1F" />
+  <img src="https://img.shields.io/badge/MongoDB-0a0604?style=for-the-badge&logo=mongodb&logoColor=FF5A1F&labelColor=0a0604&color=FF5A1F" />
+  <img src="https://img.shields.io/badge/Redis-0a0604?style=for-the-badge&logo=redis&logoColor=FF5A1F&labelColor=0a0604&color=FF5A1F" />
+  <img src="https://img.shields.io/badge/Docker-0a0604?style=for-the-badge&logo=docker&logoColor=FF5A1F&labelColor=0a0604&color=FF5A1F" />
+  <img src="https://img.shields.io/badge/AWS-0a0604?style=for-the-badge&logo=amazonaws&logoColor=FF5A1F&labelColor=0a0604&color=FF5A1F" />
 </p>
 
 <p align="center">
-  <a href="#-architecture">Architecture</a> •
-  <a href="#-what-this-project-demonstrates">Skills Shown</a> •
-  <a href="#-run-it-in-2-minutes">Quick Start</a> •
-  <a href="#-about-the-author">Author</a>
+  <img src="https://img.shields.io/badge/services-5-FF5A1F?style=flat-square&labelColor=0a0604" />
+  <img src="https://img.shields.io/badge/architecture-microservices-FFB000?style=flat-square&labelColor=0a0604" />
+  <img src="https://img.shields.io/badge/cache-redis-FF2D2D?style=flat-square&labelColor=0a0604" />
+  <img src="https://img.shields.io/badge/run-docker%20compose-FF8A00?style=flat-square&labelColor=0a0604" />
+  <img src="https://img.shields.io/badge/status-open%20source-FF5A1F?style=flat-square&labelColor=0a0604" />
+</p>
+
+<p align="center">
+  <a href="#-architecture"><code>architecture</code></a> ·
+  <a href="#-what-this-project-demonstrates"><code>skills</code></a> ·
+  <a href="#-run-it-in-2-minutes"><code>quick-start</code></a> ·
+  <a href="#-about-the-author"><code>author</code></a>
 </p>
 
 <img src="./assets/divider.svg" width="100%" />
@@ -32,11 +40,13 @@
 Most portfolio projects are single-server CRUD apps. **SELLORAAI is built the way production systems are:** independent services behind an API gateway, Redis caching for performance, everything containerised with Docker, and cloud-ready for AWS.
 
 ```ts
-const sellorai = {
+// sellorai.config.ts
+export const sellorai = {
   type: "full-stack marketplace",
   flow: ["sign up", "browse", "pay", "download"],
   backend: "each concern runs as its own service",
-};
+  stack: ["react", "node", "mongodb", "redis", "docker", "aws"],
+} as const;
 ```
 
 <img src="./assets/divider.svg" width="100%" />
@@ -74,6 +84,7 @@ const sellorai = {
 ## 🏛️ Architecture
 
 ```mermaid
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#1a0d08','primaryTextColor':'#ffe8d6','primaryBorderColor':'#ff5a1f','lineColor':'#ff8a00','secondaryColor':'#2a1710','tertiaryColor':'#0a0604','clusterBkg':'#0f0805','clusterBorder':'#ff5a1f'}}}%%
 flowchart TB
     U["👤 Users"] --> F["Frontend<br/>React + TypeScript + Shadcn UI"]
     F --> G["API Gateway"]
@@ -179,6 +190,15 @@ npm install
 npm run dev
 ```
 
+What a healthy boot looks like:
+
+```text
+$ docker compose up --build
+[ OK ] gateway · auth · product · order · ai
+[ OK ] redis cache connected · mongodb ready
+[ >> ] sellorai is live → http://localhost:5173
+```
+
 <details>
 <summary><b>🔧 Environment variables</b></summary>
 
@@ -249,7 +269,7 @@ I build scalable web applications and enjoy designing backend systems that are m
 > 🟢 **Open to full-stack / backend roles.** Feel free to reach out!
 
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:58a6ff,50:bc8cff,100:3fb950&height=120&section=footer" width="100%" />
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:FFB000,50:FF5A1F,100:FF2D2D&height=120&section=footer" width="100%" />
 </p>
 
 <p align="center">
