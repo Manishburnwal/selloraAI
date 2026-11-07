@@ -257,14 +257,14 @@ Requires local MongoDB and Redis instances.
 
 ## 👨‍💻 About the Author
 
-**Your Name**: Full-Stack Developer (React, Node.js, TypeScript)
+**Manish Kumar**: Full-Stack Developer (React, Node.js, TypeScript)
 
 I build scalable web applications and enjoy designing backend systems that are modular and maintainable.
 
-📧 your.email@example.com  
-💼 [LinkedIn](https://linkedin.com/in/your-profile)  
-🌐 [Portfolio](https://your-portfolio.com)  
-🐙 [GitHub](https://github.com/your-username)
+📧 manishkumar1abc2@gmail.com  
+💼 [LinkedIn](https://www.linkedin.com/in/manish-kumar-a3205428b/)  
+🌐 [Portfolio](https://manish1portfolio.vercel.app)  
+🐙 [GitHub](https://github.com/Manishburnwal)
 
 > 🟢 **Open to full-stack / backend roles.** Feel free to reach out!
 
